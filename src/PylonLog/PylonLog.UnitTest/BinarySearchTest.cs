@@ -74,9 +74,45 @@ namespace PylonLog.UnitTest
         public void Test_Pattern_Two_Char_Match_At_End()
         {
             byte[] targetArray = { 1, 2, 3, 4, 12 };
-            byte[] patternArray = { 4,12 };
+            byte[] patternArray = { 4, 12 };
 
             Assert.AreEqual(3, (BinarySearch.findPattern(targetArray, patternArray)));
+        }
+
+        [TestMethod]
+        public void Test_Starting_Index_Less_Than_Zero()
+        {
+            byte[] targetArray = { 1, 2, 3, 4, 12 };
+            byte[] patternArray = { 4, 12 };
+
+            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray,-1)));
+        }
+
+        [TestMethod]
+        public void Test_Pattern_Two_Char_Match_At_End_Start_At_1()
+        {
+            byte[] targetArray = { 1, 2, 3, 4, 12 };
+            byte[] patternArray = { 4, 12 };
+
+            Assert.AreEqual(3, (BinarySearch.findPattern(targetArray, patternArray,1)));
+        }
+
+        [TestMethod]
+        public void Test_Pattern_Two_Char_Match_At_End_Start_Beyond_Match()
+        {
+            byte[] targetArray = { 1, 2, 3, 4, 12 };
+            byte[] patternArray = { 4, 12 };
+
+            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray, 4)));
+        }
+
+        [TestMethod]
+        public void Test_Pattern_Two_Char_Match_At_End_Start_At_Match()
+        {
+            byte[] targetArray = { 1, 2, 3, 4, 12 };
+            byte[] patternArray = { 4, 12 };
+
+            Assert.AreEqual(3, (BinarySearch.findPattern(targetArray, patternArray, 3)));
         }
     }
 }

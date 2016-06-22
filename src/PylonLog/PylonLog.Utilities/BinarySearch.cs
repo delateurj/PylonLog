@@ -8,20 +8,20 @@ namespace PylonLog.Utilities
 {
     public static class BinarySearch
     {
-        public static int findPattern(byte[] target, byte[] pattern)
+        public static int findPattern(byte[] arrayToSearch, byte[] sequenceToFind, int startingIndex=0)
         {
-            if (pattern.Length == 0 || target.Length == 0)
+            if (sequenceToFind.Length == 0 || arrayToSearch.Length == 0 || startingIndex > arrayToSearch.Length || startingIndex < 0)
             {
-                return -1;
+                 return -1;
             }
-            var len = pattern.Length;
-            var limit = target.Length - len;
-            for (var i = 0; i <= limit; i++)
+            var len = sequenceToFind.Length;
+            var limit = arrayToSearch.Length - len;
+            for (var i = startingIndex; i <= limit; i++)
             {
                 var k = 0;
                 for (; k < len; k++)
                 {
-                    if (pattern[k] != target[i + k]) break;
+                    if (sequenceToFind[k] != arrayToSearch[i + k]) break;
                 }
                 if (k == len) return i;
             }
