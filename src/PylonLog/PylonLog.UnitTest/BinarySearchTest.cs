@@ -8,130 +8,43 @@ namespace PylonLog.UnitTest
     [TestFixture]
     public class BinarySearchTest
     {
-        [Test]
-        public void Test_Pattern_Longer_Than_Target()
+        [Test, TestCaseSource("SearchCases")]
+        public void TestBinarySearch(string testCaseName,byte[] arrayToSearch, byte[] patternToFind, int startingIndex, int expectedResult)
         {
-            byte[] targetArray = { 12 };
-            byte[] patternArray = { 12, 12 };
-            Console.WriteLine("Hello World" + Directory.GetCurrentDirectory());
-            Assert.AreEqual(-1, ( BinarySearch.findPattern(targetArray, patternArray)));
+            Assert.AreEqual(expectedResult, (BinarySearch.findPattern(arrayToSearch, patternToFind, startingIndex)));
         }
 
-        [Test]
-        public void No_Match()
+        static object[] SearchCases =
         {
-            byte[] targetArray = { 12 };
-            byte[] patternArray = { 11 };
+            new object[] {"Searched Array Shorter Than Pattern", new byte[] {0xAA} , new byte[] { 0xAA, 0xA1 }, null ,- 1 },
 
-            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray)));
-        }
+            new object[] { "No Match",new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xBB, 0xA2 }, null ,-1 },
 
-        [Test]
-        public void Empty_Pattern()
-        {
-            byte[] targetArray = { 12 };
-            byte[] patternArray = {  };
+            new object[] { "Pattern Empty", new byte[] {0xAA,0xA0,0xA1} , new byte[] {}, null ,-1 },
 
-            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray)));
-        }
+            new object[] { "Searched Array Empty", new byte[] {} , new byte[] { 0xAA, 0xA2 }, null ,-1},
 
-        [Test]
-        public void Empty_Target()
-        {
-            byte[] targetArray = {  };
-            byte[] patternArray = { 12};
+            new object[] { "Partial Match",new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xAA, 0xA2 }, null ,-1 },
 
-            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray)));
-        }
+            new object[] {"One Char Match",  new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xA0 }, null ,1},
 
-        [Test]
-        public void Test_Pattern_Partial_Match()
-        {
-            byte[] targetArray = { 1, 2, 3, 4 };
-            byte[] patternArray = { 4, 12 };
+            new object[] {"One Char Match At End", new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xA1 }, null ,2},
 
-            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray)));
-        }
+            new object[] {"Searched Array and Pattern Identical",new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xAA, 0xA0, 0xA1 }, null ,0 },
 
-        [Test]
-        public void Test_Pattern_One_Char_Match()
-        {
-            byte[] targetArray = { 12 };
-            byte[] patternArray = { 12 };
+            new object[] {"Starting Index Less Than Zero", new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xAA, 0xA0, 0xA1 }, -1 ,-1},
 
-            Assert.AreEqual(0, (BinarySearch.findPattern(targetArray, patternArray)));
-        }
+            new object[] {"Start at 0 with match", new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xA1 }, 0 ,2 },
 
-        [Test]
-        public void Test_Pattern_One_Char_Match_At_End()
-        {
-            byte[] targetArray = { 1,2,3,4,12 };
-            byte[] patternArray = { 12 };
+            new object[] { "Start at 0 with no match",new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xA2 },0 ,-1},
 
-            Assert.AreEqual(4, (BinarySearch.findPattern(targetArray, patternArray)));
-        }
+            new object[] { "Start at 2 with match ", new byte[] {0xAA,0xA0,0xA1} , new byte[] { 0xA1 }, 2 ,2 },
 
-        [Test]
-        public void Test_Pattern_Two_Char_Match_At_End()
-        {
-            byte[] targetArray = { 1, 2, 3, 4, 12 };
-            byte[] patternArray = { 4, 12 };
+            new object[] { "Find first of two matches",new byte[] {0xAA,0xA0,0xA1,0xA2,0xA3,0xA0,0xA1,0xA2} , new byte[] { 0xA0,0xA1 }, 0 ,1 },
 
-            Assert.AreEqual(3, (BinarySearch.findPattern(targetArray, patternArray)));
-        }
+            new object[] { "Find second of two matches",new byte[] {0xAA,0xA0,0xA1,0xA2,0xA3,0xA0,0xA1,0xA2} , new byte[] { 0xA0,0xA1 }, 2 ,5 },
 
-        [Test]
-        public void Test_Starting_Index_Less_Than_Zero()
-        {
-            byte[] targetArray = { 1, 2, 3, 4, 12 };
-            byte[] patternArray = { 4, 12 };
-
-            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray,-1)));
-        }
-
-        [Test]
-        public void Test_Pattern_Two_Char_Match_At_End_Start_At_1()
-        {
-            byte[] targetArray = { 1, 2, 3, 4, 12 };
-            byte[] patternArray = { 4, 12 };
-
-            Assert.AreEqual(3, (BinarySearch.findPattern(targetArray, patternArray,1)));
-        }
-
-        [Test]
-        public void Test_Pattern_Two_Char_Match_At_End_Start_Beyond_Match()
-        {
-            byte[] targetArray = { 1, 2, 3, 4, 12 };
-            byte[] patternArray = { 4, 12 };
-
-            Assert.AreEqual(-1, (BinarySearch.findPattern(targetArray, patternArray, 4)));
-        }
-
-        [Test]
-        public void Test_Pattern_Two_Char_Match_At_End_Start_At_Match()
-        {
-            byte[] targetArray = { 1, 2, 3, 4, 12 };
-            byte[] patternArray = { 4, 12 };
-
-            Assert.AreEqual(3, (BinarySearch.findPattern(targetArray, patternArray, 3)));
-        }
-
-        [Test]
-        public void Test_Pattern_Find_Second_Match()
-        {
-            byte[] targetArray = { 1, 2, 3, 4, 12, 1,2,3,4,12};
-            byte[] patternArray = {2,3 };
-
-            Assert.AreEqual(6, (BinarySearch.findPattern(targetArray, patternArray, 2)));
-        }
-
-        [Test]
-        public void Test_Pattern_First_Of_Two()
-        {
-            byte[] targetArray = { 1, 2, 3, 4, 12, 1, 2, 3, 4, 12 };
-            byte[] patternArray = { 2, 3 };
-
-            Assert.AreEqual(1, (BinarySearch.findPattern(targetArray, patternArray, 1)));
-        }
+            new object[] { "Start Beyond Match", new byte[] {0xAA,0xA0,0xA1,0xA2,0xA3,0xA0,0xA1,0xA2,0xA3,0xA4} , new byte[] { 0xA0,0xA1 }, 6 ,-1}
+        };   
     }
 }
