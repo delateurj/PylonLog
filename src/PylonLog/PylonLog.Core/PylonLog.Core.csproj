@@ -77,8 +77,6 @@
     </ApplicationDefinition>
     <Compile Include="DataBlock.cs" />
     <Compile Include="LogSession.cs" />
-    <Compile Include="SessionMainHeader.cs" />
-    <Compile Include="SessionSupplementalHeader.cs" />
     <Compile Include="SpektrumLog.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +118,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PylonLog.Utilities\PylonLog.Utilities.csproj">
+      <Project>{2512f3d6-c742-418d-97f9-ff14d48d1527}</Project>
+      <Name>PylonLog.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
