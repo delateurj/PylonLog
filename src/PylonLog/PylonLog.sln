@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PylonLog.IntegrationTest", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PylonLog.Utilities", "PylonLog.Utilities\PylonLog.Utilities.csproj", "{2512F3D6-C742-418D-97F9-FF14D48D1527}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZedGraphUserControl", "ZedGraphUserControl\ZedGraphUserControl.csproj", "{921FDE9F-0738-4768-A60C-6AC88AD9156E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2512F3D6-C742-418D-97F9-FF14D48D1527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2512F3D6-C742-418D-97F9-FF14D48D1527}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2512F3D6-C742-418D-97F9-FF14D48D1527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{921FDE9F-0738-4768-A60C-6AC88AD9156E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{921FDE9F-0738-4768-A60C-6AC88AD9156E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{921FDE9F-0738-4768-A60C-6AC88AD9156E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{921FDE9F-0738-4768-A60C-6AC88AD9156E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,12 +9,12 @@ namespace PylonLog.IntegrationTest
     public class LogFileReadingAndParsingIntegrationTests
     {
         string integrationTestLog = "C:\\Users\\djoe\\Dropbox\\Programming\\PylonLog\\TestData\\Log.TLM";
+
         string integrationBadFileName = "C:\\Users\\djoe\\Dropbox\\Programming\\PylonLog\\TestData\\NoLog.TLM";
 
         string integrationTestWriteResult = "C:\\Users\\djoe\\Dropbox\\Programming\\PylonLog\\TestData\\ConvertedText.txt";
 
         string integrationTestExpectedResult = "C:\\Users\\djoe\\Dropbox\\Programming\\PylonLog\\TestData\\converted.txt";
-
 
 
         [Test]
@@ -26,9 +26,9 @@ namespace PylonLog.IntegrationTest
 
             spektrumLog.populateRawDataFromFile(integrationTestLog);
 
-            Assert.AreEqual(4959676, spektrumLog.rawData.Length);
-           
+            Assert.AreEqual(4959676, spektrumLog.rawData.Length);   
         }
+
 
         [Test]
         public void TestReadingSampleLogFileAndPopulatingArrayBadFileName()
@@ -38,17 +38,13 @@ namespace PylonLog.IntegrationTest
             spektrumLog.populateRawDataFromFile(integrationBadFileName);
 
             Assert.IsNull(spektrumLog.rawData);
-
         }
+
 
         [Test]
         public void TestParsingFile()
         {
-            SpektrumLog spektrumLog = new SpektrumLog();
-
-            spektrumLog.populateRawDataFromFile(integrationTestLog);
-
-            spektrumLog.createSessionLogs();
+            SpektrumLog spektrumLog = new SpektrumLog(integrationTestLog);
 
             spektrumLog.writeToTextFile(integrationTestWriteResult);
 

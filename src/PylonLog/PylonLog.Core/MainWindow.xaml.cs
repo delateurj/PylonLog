@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
+using ZedGraphUserControl;
+using System.Windows.Forms.Integration;
 
 namespace PylonLog.Core
 {
@@ -24,5 +27,18 @@ namespace PylonLog.Core
         {
             InitializeComponent();
         }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            WindowsFormsHost host = new WindowsFormsHost();
+            
+            ZedGraphUserControl.ZedGraphUserControl graph = new ZedGraphUserControl.ZedGraphUserControl();
+            host.Child = graph;
+            MainGrid.Children.Add(host);
+            this.Width = graph.Width + 2 * 20;
+            this.Height = graph.Height + 3 * 20;
+        }
+
     }
 }
+

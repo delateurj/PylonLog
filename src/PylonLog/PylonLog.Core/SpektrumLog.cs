@@ -12,10 +12,19 @@ namespace PylonLog.Core
     public class SpektrumLog
     {
         public byte[] rawData;
-
        
         public List<LogSession> logSessions = new List<LogSession>();
 
+        public SpektrumLog(string theFilePath)
+        {
+            populateRawDataFromFile(theFilePath);
+            createSessionLogs();
+        }
+
+        public SpektrumLog()
+        {
+
+        }
 
         public void populateRawDataFromFile(string theFilePath)
         {
@@ -29,9 +38,9 @@ namespace PylonLog.Core
             }
         }
 
+
         public void createSessionLogs()
         {
-
             int indexOfNextLogSession = BinarySearch.findPattern(rawData, Utilities.Constants.NEW_SESSION_LOG_PATTERN);
 
             int indexOfNextSupplementalHeader;
@@ -46,16 +55,7 @@ namespace PylonLog.Core
 
                 logSession.poplulateNameFromMainHeader();
 
-                indexOfNextSupplementalHeader = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfLogSession + Constants.HEADER_BLOCK_LENGTH);
-
-                logSession.supplementalHeaders.Add(rawData.Slice(indexOfNextSupplementalHeader, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH));
-
-                while (rawData[indexOfNextSupplementalHeader + 4] != 0x17 || rawData[indexOfNextSupplementalHeader + 5] != 0x17)
-                {
-                    indexOfNextSupplementalHeader = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH);
-
-                    logSession.supplementalHeaders.Add(rawData.Slice(indexOfNextSupplementalHeader, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH));
-                }
+                indexOfNextSupplementalHeader = parseSupplementalHeaders(indexOfLogSession, logSession);
 
                 indexOfNextLogSession = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH);
 
@@ -71,15 +71,30 @@ namespace PylonLog.Core
                 logSession.createDataBlocksFromRawData();
 
                 logSessions.Add(logSession);
-
             }
         }
+
+
+        public int parseSupplementalHeaders(int indexOfLogSession, LogSession logSession)
+        {
+            int indexOfNextSupplementalHeader = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfLogSession + Constants.HEADER_BLOCK_LENGTH);
+
+            logSession.supplementalHeaders.Add(rawData.Slice(indexOfNextSupplementalHeader, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH));
+
+            while (rawData[indexOfNextSupplementalHeader + 4] != 0x17 || rawData[indexOfNextSupplementalHeader + 5] != 0x17)
+            {
+                indexOfNextSupplementalHeader = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH);
+
+                logSession.supplementalHeaders.Add(rawData.Slice(indexOfNextSupplementalHeader, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH));
+            }
+
+            return indexOfNextSupplementalHeader;
+        }
+
 
         public void writeToTextFile(string theFilePath)
         {
             using (StreamWriter writer = new StreamWriter(theFilePath))
-
-
             {
                 foreach (LogSession logSession in logSessions)
                 {
@@ -92,8 +107,7 @@ namespace PylonLog.Core
                     foreach (DataBlock dataBlock in logSession.dataBlocks)
                     {
                        writer.WriteLine(dataBlock.timeStamp - logSession.dataBlocks[0].timeStamp + "," + dataBlock.dataType + "," + dataBlock.dataValue);
-                    }
-
+                   }
                 }
             }
         }

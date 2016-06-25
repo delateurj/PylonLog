@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PylonLog.Core"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+    <Grid x:Name="MainGrid" Loaded="Grid_Loaded">
+        <Grid HorizontalAlignment="Left" Height="110" Margin="-162,10,0,0" VerticalAlignment="Top" Width="172"/>
+
     </Grid>
 </Window>

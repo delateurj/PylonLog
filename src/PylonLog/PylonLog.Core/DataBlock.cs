@@ -14,13 +14,14 @@ namespace PylonLog.Core
 
         public string dataType { get; set; }
 
-
         public int dataValue { get; set; }
+
 
         public void populateTimeStampFromRawData()
         {
             timeStamp = BitConverter.ToInt32(rawData, 0);
         }
+
 
         public void populateDataTypeAndValueFromRawData()
         {
@@ -50,9 +51,10 @@ namespace PylonLog.Core
                 dataType = "None";
                 dataValue = 0;
             }
-
-
         }
+
+
     }
+
 
 }

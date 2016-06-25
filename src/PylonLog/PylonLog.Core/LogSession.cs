@@ -33,6 +33,7 @@ namespace PylonLog.Core
             }
         }
 
+
         public void createDataBlocksFromRawData()
         {
             int indexOfStartOfDataBlocks = Constants.HEADER_BLOCK_LENGTH + Constants.HEADER_BLOCK_LENGTH * supplementalHeaders.Count;
