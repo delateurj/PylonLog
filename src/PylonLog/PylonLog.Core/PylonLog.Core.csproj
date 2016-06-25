@@ -130,9 +130,9 @@
       <Project>{2512f3d6-c742-418d-97f9-ff14d48d1527}</Project>
       <Name>PylonLog.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZedGraphUserControl\ZedGraphUserControl.csproj">
-      <Project>{921fde9f-0738-4768-a60c-6ac88ad9156e}</Project>
-      <Name>ZedGraphUserControl</Name>
+    <ProjectReference Include="..\PylonLogGraphUserControl\PylonLogGraphUserControl.csproj">
+      <Project>{d77b8dc2-95b5-48a9-bca0-895fe7dee50a}</Project>
+      <Name>PylonLogGraphUserControl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

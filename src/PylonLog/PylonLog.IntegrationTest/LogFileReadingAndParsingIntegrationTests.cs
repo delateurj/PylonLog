@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using NUnit.Framework;
 using PylonLog.Core;
 using System.IO;
@@ -49,6 +50,11 @@ namespace PylonLog.IntegrationTest
             spektrumLog.writeToTextFile(integrationTestWriteResult);
 
             FileAssert.AreEqual(integrationTestWriteResult, integrationTestExpectedResult);
+        }
+
+        public void testGui()
+        {
+            
         }
     }
 }

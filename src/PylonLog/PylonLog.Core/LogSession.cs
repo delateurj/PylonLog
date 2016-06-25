@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PylonLog.Utilities;
+using System.Linq;
 
 namespace PylonLog.Core
 {
@@ -40,12 +41,12 @@ namespace PylonLog.Core
 
             int numberOfDataBlocks = (rawData.Length - indexOfStartOfDataBlocks) / Constants.DATA_BLOCK_LENGTH;
 
-            for(int i=0; i<numberOfDataBlocks;i++)
+            for (int i = 0; i < numberOfDataBlocks; i++)
             {
                 DataBlock nextDataBlock = new DataBlock();
 
                 nextDataBlock.rawData = rawData.Slice(indexOfStartOfDataBlocks + i * Constants.DATA_BLOCK_LENGTH, indexOfStartOfDataBlocks + (i + 1) * Constants.DATA_BLOCK_LENGTH);
-        
+
                 nextDataBlock.populateTimeStampFromRawData();
 
                 nextDataBlock.populateDataTypeAndValueFromRawData();
@@ -53,7 +54,7 @@ namespace PylonLog.Core
                 dataBlocks.Add(nextDataBlock);
             }
 
-            if(dataBlocks.Count>0)
+            if (dataBlocks.Count > 0)
             {
                 duration = dataBlocks.Last().timeStamp - dataBlocks.First().timeStamp;
             }
@@ -61,6 +62,38 @@ namespace PylonLog.Core
             {
                 duration = 0;
             }
+        }
+
+
+        public List<Double[]> getSelectedDataBlocks(string dataType)
+        {
+
+            List<DataBlock> list = new List<DataBlock>();
+           
+            foreach (DataBlock dataBlock in dataBlocks)
+            {
+                if(dataBlock.dataType == dataType)
+                {
+                    list.Add(dataBlock);
+                }
+               
+            }
+
+            List<Double[]> result = new List<Double[]>();
+
+            Double[] timeStamps = new Double[list.Count];
+            Double[] values = new Double[list.Count];
+
+            for (int i=0; i < list.Count ; i++)
+            {
+                timeStamps[i] = (double)(list[i].timeStamp)/(double)100;
+                values[i] = list[i].dataValue;
+            }
+
+            result.Add(timeStamps);
+            result.Add(values);
+
+            return result;
         }
     }
 }

@@ -42,6 +42,8 @@ namespace ZedGraphUserControl
             double x, y1, y2;
             PointPairList list1 = new PointPairList();
             PointPairList list2 = new PointPairList();
+
+            
             for (int i = 0; i < 36; i++)
             {
                 x = (double)i + 5;
