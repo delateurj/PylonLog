@@ -16,7 +16,7 @@ namespace PylonLog.UnitTest
 
             string expectedPlaneName = "TestPlane";
 
-            LogSession logSession = new LogSession();
+            TelemetrySession logSession = new TelemetrySession();
 
             logSession.mainHeader = Encoding.ASCII.GetBytes("012345678901TestPlane\0");
 

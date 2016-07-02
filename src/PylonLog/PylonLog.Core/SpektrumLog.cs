@@ -13,7 +13,7 @@ namespace PylonLog.Core
     {
         public byte[] rawData;
        
-        public List<LogSession> logSessions = new List<LogSession>();
+        public List<TelemetrySession> logSessions = new List<TelemetrySession>();
 
         public SpektrumLog(string theFilePath)
         {
@@ -49,7 +49,7 @@ namespace PylonLog.Core
             {
                 int indexOfLogSession = indexOfNextLogSession;
 
-                LogSession logSession = new LogSession();
+                TelemetrySession logSession = new TelemetrySession();
 
                 logSession.mainHeader = rawData.Slice(indexOfLogSession, indexOfLogSession + Constants.HEADER_BLOCK_LENGTH);
 
@@ -75,7 +75,7 @@ namespace PylonLog.Core
         }
 
 
-        public int parseSupplementalHeaders(int indexOfLogSession, LogSession logSession)
+        public int parseSupplementalHeaders(int indexOfLogSession, TelemetrySession logSession)
         {
             int indexOfNextSupplementalHeader = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfLogSession + Constants.HEADER_BLOCK_LENGTH);
 
@@ -96,7 +96,7 @@ namespace PylonLog.Core
         {
             using (StreamWriter writer = new StreamWriter(theFilePath))
             {
-                foreach (LogSession logSession in logSessions)
+                foreach (TelemetrySession logSession in logSessions)
                 {
                     writer.WriteLine(logSession.planeName);
 

@@ -8,6 +8,8 @@
         Title="Pylon Log" Height="350" Width="525">
     <Grid x:Name="MainGrid" Loaded="Grid_Loaded">
         <Grid HorizontalAlignment="Left" Height="110" Margin="-162,10,0,0" VerticalAlignment="Top" Width="172"/>
+        <ListBox x:Name="logSessionsListBox" HorizontalAlignment="Left" Height="116" Margin="10,27,0,0" VerticalAlignment="Top" Width="169" SelectionChanged="logSessionsListBox_SelectionChanged"/>
+        <Button x:Name="OpenSpektrumLogButton" Content="Open Spektrum Log" HorizontalAlignment="Left" Height="22" Margin="10,0,0,0" VerticalAlignment="Top" Width="83" Click="button_Click" FontSize="8"/>
 
     </Grid>
 </Window>

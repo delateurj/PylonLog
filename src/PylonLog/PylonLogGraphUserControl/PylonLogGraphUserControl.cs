@@ -38,6 +38,7 @@ namespace PylonLogGraphUserControl
             set { zgcPylonLogGraph.Height = value; }
         }
 
+
         private void CreateGraph(ZedGraphControl zgc, PointPairList firstList, PointPairList secondList)
         {
             // get a reference to the GraphPane

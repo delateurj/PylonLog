@@ -1,19 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Forms;
-using PylonLogGraphUserControl;
 using System.Windows.Forms.Integration;
 
 namespace PylonLog.Core
@@ -33,7 +21,7 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-            DisplayTestLogData();
+
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -58,6 +46,46 @@ namespace PylonLog.Core
             this.Width = graph.Width + 2 * 20;
             this.Height = graph.Height + 3 * 20;
 
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "Log Files (*.TLM)|*.TLM";
+
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                spektrumLog = new SpektrumLog(openFileDialog.FileName);
+
+                logSessionsListBox.ItemsSource = spektrumLog.logSessions;
+            }
+        }
+
+        private void logSessionsListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+            GraphWindow graphWindow = new GraphWindow();
+
+            WindowsFormsHost host = new WindowsFormsHost();
+
+            TelemetrySession selectedLogSession = (TelemetrySession)logSessionsListBox.SelectedItem;
+
+            List<Double[]> firstGraphData = selectedLogSession.getSelectedDataBlocks("RPM");
+
+            List<Double[]> secondGraphData = selectedLogSession.getSelectedDataBlocks("RX-VOLT");
+
+            graph = new PylonLogGraphUserControl.PylonLogGraphUserControl(firstGraphData, secondGraphData);
+            
+            host.Child = graph;
+
+            graphWindow.MainGrid.Children.Add(host);
+            graphWindow.Width = graph.Width + 2 * 20;
+            graphWindow.Height = graph.Height + 3 * 20;
+
+            graphWindow.Title = selectedLogSession.ToString();
+
+            graphWindow.Show();
         }
     }
 }
