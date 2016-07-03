@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PylonLog.Core
 {
     public class DataBlock
     {
+        [NotMapped]
         public byte[] rawData { get; set; }
+
+        public long DataBlockID { get; set; }
 
         public int timeStamp { get; set; }
 
         public string dataType { get; set; }
 
         public int dataValue { get; set; }
+
+        public virtual PylonLogEntry pylonLogEntry { get; set; }
 
 
         public void populateTimeStampFromRawData()

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using System.Data.Entity;
+using System.Linq;
+
 
 namespace PylonLog.Core
 {
@@ -11,44 +14,52 @@ namespace PylonLog.Core
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string integrationTestLog = "C:\\Users\\djoe\\Dropbox\\Programming\\PylonLog\\TestData\\Log.TLM";
 
-        private SpektrumLog spektrumLog = new SpektrumLog(integrationTestLog);
+        private PylonLogContext _context = new PylonLogContext();
 
         private PylonLogGraphUserControl.PylonLogGraphUserControl graph;
+
+        private SpektrumLog spektrumLog;
 
         public MainWindow()
         {
             InitializeComponent();
 
+        //  _context.pylonLogEntries.Load();
 
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
 
+            System.Windows.Data.CollectionViewSource pylonLogEntryViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
+
+
+            _context.pylonLogEntries.Load();
+
+            pylonLogEntryViewSource.Source = _context.pylonLogEntries.Local;
         }
 
-        public void DisplayTestLogData()
+        private void pylonLogEntryDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            spektrumLog = new SpektrumLog(integrationTestLog);
-
-            WindowsFormsHost host = new WindowsFormsHost();
-
-            List<Double[]> firstGraphData = spektrumLog.logSessions[1].getSelectedDataBlocks("RPM");
-
-            List<Double[]> secondGraphData = spektrumLog.logSessions[1].getSelectedDataBlocks("RX-VOLT");
-
-            graph = new PylonLogGraphUserControl.PylonLogGraphUserControl(firstGraphData, secondGraphData);
-
-            host.Child = graph;
-            MainGrid.Children.Add(host);
-            this.Width = graph.Width + 2 * 20;
-            this.Height = graph.Height + 3 * 20;
 
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
+        {
+            PylonLogEntry pylonLogEntry = new PylonLogEntry();
+
+
+            pylonLogEntry.planeName = "Hello World";
+
+             _context.pylonLogEntries.Add(pylonLogEntry);
+
+                _context.SaveChanges();
+           
+
+        }
+
+        private void openLogToInspectButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -64,7 +75,6 @@ namespace PylonLog.Core
 
         private void logSessionsListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
             GraphWindow graphWindow = new GraphWindow();
 
             WindowsFormsHost host = new WindowsFormsHost();
@@ -76,7 +86,7 @@ namespace PylonLog.Core
             List<Double[]> secondGraphData = selectedLogSession.getSelectedDataBlocks("RX-VOLT");
 
             graph = new PylonLogGraphUserControl.PylonLogGraphUserControl(firstGraphData, secondGraphData);
-            
+
             host.Child = graph;
 
             graphWindow.MainGrid.Children.Add(host);
@@ -85,8 +95,10 @@ namespace PylonLog.Core
 
             graphWindow.Title = selectedLogSession.ToString();
 
-            graphWindow.Show();
+            graphWindow.Show(); 
         }
     }
+
+       
 }
 
