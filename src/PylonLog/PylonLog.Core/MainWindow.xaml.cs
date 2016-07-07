@@ -14,10 +14,11 @@ namespace PylonLog.Core
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private PylonLogContext _context = new PylonLogContext();
 
         private PylonLogGraphUserControl.PylonLogGraphUserControl graph;
+
+        private PylonLogEntry pylonLogEntry = new PylonLogEntry();
 
         private SpektrumLog spektrumLog;
 
@@ -25,7 +26,9 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-        //  _context.pylonLogEntries.Load();
+            //engineIDTextBox.DataContext = pylonLogEntry;
+
+            MainWindow1.tabControl.DataContext = pylonLogEntry;
 
         }
 
@@ -34,28 +37,20 @@ namespace PylonLog.Core
 
             System.Windows.Data.CollectionViewSource pylonLogEntryViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
 
-
             _context.pylonLogEntries.Load();
 
             pylonLogEntryViewSource.Source = _context.pylonLogEntries.Local;
-        }
-
-        private void pylonLogEntryDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
             PylonLogEntry pylonLogEntry = new PylonLogEntry();
 
-
             pylonLogEntry.planeName = "Hello World";
 
-             _context.pylonLogEntries.Add(pylonLogEntry);
+            _context.pylonLogEntries.Add(pylonLogEntry);
 
-                _context.SaveChanges();
-           
+            _context.SaveChanges();
 
         }
 
@@ -90,15 +85,54 @@ namespace PylonLog.Core
             host.Child = graph;
 
             graphWindow.MainGrid.Children.Add(host);
+
+
             graphWindow.Width = graph.Width + 2 * 20;
             graphWindow.Height = graph.Height + 3 * 20;
 
             graphWindow.Title = selectedLogSession.ToString();
 
-            graphWindow.Show(); 
+            graphWindow.Show();
+        }
+
+        private void button_Click_1(object sender, RoutedEventArgs e)
+        {
+            TelemetrySession selectedLogSession = (TelemetrySession)logSessionsListBox.SelectedItem;
+
+             pylonLogEntry.planeName = selectedLogSession.planeName;
+
+            //foreach (DataBlock dataBlock in selectedLogSession.dataBlocks)
+
+            //{
+            //    pylonLogEntry.DataBlocks.Add(dataBlock);
+            //}
+
+            pylonLogEntry.telemetryDuration = selectedLogSession.duration;
+
+            _context.pylonLogEntries.Add(pylonLogEntry);
+
+            _context.SaveChanges();
+
+            this.pylonLogEntryDataGrid.Items.Refresh();
+
+            this.logSessionsListBox.Focus();
+
+        }
+
+        private void button_Click_2(object sender, RoutedEventArgs e)
+        {
+            _context.SaveChanges();
+            this.pylonLogEntryDataGrid.Items.Refresh();
+        }
+
+        private void TabItem_GotFocus(object sender, RoutedEventArgs e)
+        {
+            _context.pylonLogEntries.Load();
+
+            this.pylonLogEntryDataGrid.Items.Refresh();
         }
     }
 
-       
+
 }
 
