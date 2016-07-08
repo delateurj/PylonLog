@@ -64,6 +64,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Label Content="Plane:" Grid.Column="0" Grid.Row="0" />
@@ -95,38 +96,43 @@
                              Grid.Column="1" Grid.Row="6" 
                              Text="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
-                    <Label Content="Notes:" 
-                           Grid.Column="0" Grid.Row="7"/>
-                    <TextBox x:Name="txtNotes" 
-                             Grid.Column="1" Grid.Row="7" MaxWidth="300" TextWrapping="Wrap" 
-                             Text="{Binding notes, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
                     <Label Content="Prop:" 
-                           Grid.Column="0" Grid.Row="8" />
+                           Grid.Column="0" Grid.Row="7" />
                     <ComboBox x:Name="cmbBxProp" 
-                              Grid.Column="1" Grid.Row="8" 
+                              Grid.Column="1" Grid.Row="7" 
                               ItemsSource = "{Binding Source={StaticResource propViewSource}}"
                               SelectedValue="{Binding prop, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                               DisplayMemberPath="name"                                                      
                                />
 
-                   <Label Content="Plug Type:" Grid.Column="0" Grid.Row="9"/>
+                   <Label Content="Plug Type:" Grid.Column="0" Grid.Row="8"/>
                     <ComboBox x:Name="cmbBxPlug" 
-                              Grid.Column="1" Grid.Row="9" 
+                              Grid.Column="1" Grid.Row="8" 
                               ItemsSource = "{Binding Source={StaticResource plugViewSource }}"
                               SelectedValue="{Binding plugType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                               DisplayMemberPath="name"                                                      
                                />
                   
-                    <Label Content="Temperature:" Grid.Column="0" Grid.Row="10"/>
+                    <Label Content="Temperature:" Grid.Column="0" Grid.Row="9"/>
                     <TextBox x:Name="txtTemperature" 
-                             Grid.Column="1" Grid.Row="10"  
+                             Grid.Column="1" Grid.Row="9"  
                              Text="{Binding temperature, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
-                    <Label Content="Humidity:" Grid.Column="0" Grid.Row="11"/>
+                    <Label Content="Humidity:" Grid.Column="0" Grid.Row="10"/>
                     <TextBox x:Name="txtHumidity" 
-                             Grid.Column="1" Grid.Row="11"  
+                             Grid.Column="1" Grid.Row="10"  
                              Text="{Binding humidity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Exclude From Stats:" Grid.Column="0" Grid.Row="11" />
+                    <CheckBox x:Name="chkBxExcludeFromStats" Grid.Column="1" Content="" Grid.Row="11" VerticalAlignment="Center" 
+                              IsChecked="{Binding excludeFromStats, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Notes:" 
+                           Grid.Column="0" Grid.Row="12"/>
+                    <TextBox x:Name="txtNotes" 
+                             Grid.Column="1" Grid.Row="12" MaxWidth="300" TextWrapping="Wrap" 
+                             Text="{Binding notes, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
                 </Grid>
                 <Button x:Name="btnCreateLogEntryFromSelectedSession" Content="Create Log Entry For Selected Session" 
                         Margin="10,0,10,0" Click="button_Click_1"/>

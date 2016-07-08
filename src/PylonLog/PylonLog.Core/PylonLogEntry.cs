@@ -5,17 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
+using PropertyChanged;
 
 namespace PylonLog.Core
 {
-    public class PylonLogEntry
+    [ImplementPropertyChanged]
+    public class PylonLogEntry : INotifyPropertyChanged
     {
-        
+
         public PylonLogEntry()
         {
             this.DataBlocks = new ObservableCollection<DataBlock>();
 
             entryDateTime = DateTime.Now;
+
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
 
         public int pylonLogEntryID { get; set; }
@@ -27,6 +41,8 @@ namespace PylonLog.Core
         public string engineID { get; set; }
 
         public string entryType { get; set; }
+
+        public bool excludeFromStats { get; set; }
 
         public int telemetryDuration { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Data.Entity;
@@ -31,11 +32,11 @@ namespace PylonLog.Core
 
         private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Windows.Data.CollectionViewSource pylonLogEntryViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
+            CollectionViewSource pylonLogEntryViewSource = ((CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
 
-            System.Windows.Data.CollectionViewSource propViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("propViewSource")));
+            CollectionViewSource propViewSource = ((CollectionViewSource)(this.FindResource("propViewSource")));
 
-            System.Windows.Data.CollectionViewSource plugViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("plugViewSource")));
+            CollectionViewSource plugViewSource = ((CollectionViewSource)(this.FindResource("plugViewSource")));
 
             pylonLogContext.props.Load();
 
@@ -79,7 +80,7 @@ namespace PylonLog.Core
 
             TelemetrySession selectedLogSession = (TelemetrySession)lstBxLogSessions.SelectedItem;
 
-            txtPlaneName.Text = selectedLogSession.planeName;
+            //txtPlaneName.Text = selectedLogSession.planeName;
 
             pylonLogEntry.planeName = selectedLogSession.planeName;
 
@@ -119,9 +120,30 @@ namespace PylonLog.Core
 
             pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
 
+            PylonLogEntry justSavedPylonLog = pylonLogEntry;
+
             pylonLogContext.SaveChanges();
 
             pylonLogEntry = new PylonLogEntry();
+
+            dckPnlMain.DataContext = pylonLogEntry;
+
+            //Copy the attributes that are likely to be the same for the
+            //next entry.
+
+            pylonLogEntry.planeName = selectedLogSession.planeName;
+
+            pylonLogEntry.humidity = justSavedPylonLog.humidity;
+
+            pylonLogEntry.temperature = justSavedPylonLog.temperature;
+
+            pylonLogEntry.prop = justSavedPylonLog.prop;
+
+            pylonLogEntry.plugType = justSavedPylonLog.plugType;
+
+            pylonLogEntry.engineID = justSavedPylonLog.engineID;
+
+            pylonLogEntry.entryType = justSavedPylonLog.entryType;
 
             this.lstBxLogSessions.Focus();
         }
