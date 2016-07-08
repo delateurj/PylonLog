@@ -25,7 +25,7 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-            //pylonLogContext.Database.Initialize(false);
+            pylonLogContext.Database.Initialize(false);
 
             dckPnlMain.DataContext = pylonLogEntry;
         }
@@ -51,12 +51,6 @@ namespace PylonLog.Core
             pylonLogEntryViewSource.Source = pylonLogContext.pylonLogEntries.Local;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
-
-            pylonLogContext.SaveChanges();
-        }
 
         private void openLogToInspectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -72,6 +66,7 @@ namespace PylonLog.Core
             }
         }
 
+
         private void logSessionsListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             GraphWindow graphWindow = new GraphWindow();
@@ -80,9 +75,7 @@ namespace PylonLog.Core
 
             TelemetrySession selectedLogSession = (TelemetrySession)lstBxLogSessions.SelectedItem;
 
-            //txtPlaneName.Text = selectedLogSession.planeName;
-
-            pylonLogEntry.planeName = selectedLogSession.planeName;
+             pylonLogEntry.planeName = selectedLogSession.planeName;
 
             List<Double[]> firstGraphData = selectedLogSession.getSelectedDataBlocks("RPM");
 
@@ -131,7 +124,7 @@ namespace PylonLog.Core
             //Copy the attributes that are likely to be the same for the
             //next entry.
 
-            pylonLogEntry.planeName = selectedLogSession.planeName;
+            pylonLogEntry.planeName = justSavedPylonLog.planeName;
 
             pylonLogEntry.humidity = justSavedPylonLog.humidity;
 
