@@ -18,12 +18,10 @@ namespace PylonLog.Core
 
         public virtual PylonLogEntry pylonLogEntry { get; set; }
 
-
         public void populateTimeStampFromRawData()
         {
             timeStamp = BitConverter.ToInt32(rawData, 0);
         }
-
 
         public void populateDataTypeAndValueFromRawData()
         {
@@ -54,9 +52,5 @@ namespace PylonLog.Core
                 dataValue = 0;
             }
         }
-
-
     }
-
-
 }

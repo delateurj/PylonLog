@@ -66,8 +66,6 @@ namespace PylonLogGraphUserControl
             zgc.AxisChange();
 
             zgc.IsShowPointValues = true;
-
-            
         }
         private void CreateExampleGraph(ZedGraphControl zgc)
         {

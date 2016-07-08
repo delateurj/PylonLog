@@ -9,12 +9,10 @@ using System.Linq;
 
 namespace PylonLog.Core
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
-        private PylonLogContext _context = new PylonLogContext();
+        private PylonLogContext pylonLogContext = new PylonLogContext();
 
         private PylonLogGraphUserControl.PylonLogGraphUserControl graph;
 
@@ -26,32 +24,37 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-            //engineIDTextBox.DataContext = pylonLogEntry;
+            //pylonLogContext.Database.Initialize(false);
 
-            MainWindow1.tabControl.DataContext = pylonLogEntry;
-
+            dckPnlMain.DataContext = pylonLogEntry;
         }
 
         private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
-
             System.Windows.Data.CollectionViewSource pylonLogEntryViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
 
-            _context.pylonLogEntries.Load();
+            System.Windows.Data.CollectionViewSource propViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("propViewSource")));
 
-            pylonLogEntryViewSource.Source = _context.pylonLogEntries.Local;
+            System.Windows.Data.CollectionViewSource plugViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("plugViewSource")));
+
+            pylonLogContext.props.Load();
+
+            pylonLogContext.plugs.Load();
+
+            pylonLogContext.pylonLogEntries.Load();
+           
+            plugViewSource.Source = pylonLogContext.plugs.Local;
+
+            propViewSource.Source = pylonLogContext.props.Local;
+
+            pylonLogEntryViewSource.Source = pylonLogContext.pylonLogEntries.Local;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            PylonLogEntry pylonLogEntry = new PylonLogEntry();
+            pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
 
-            pylonLogEntry.planeName = "Hello World";
-
-            _context.pylonLogEntries.Add(pylonLogEntry);
-
-            _context.SaveChanges();
-
+            pylonLogContext.SaveChanges();
         }
 
         private void openLogToInspectButton_Click(object sender, RoutedEventArgs e)
@@ -64,7 +67,7 @@ namespace PylonLog.Core
             {
                 spektrumLog = new SpektrumLog(openFileDialog.FileName);
 
-                logSessionsListBox.ItemsSource = spektrumLog.logSessions;
+                lstBxLogSessions.ItemsSource = spektrumLog.logSessions;
             }
         }
 
@@ -74,7 +77,11 @@ namespace PylonLog.Core
 
             WindowsFormsHost host = new WindowsFormsHost();
 
-            TelemetrySession selectedLogSession = (TelemetrySession)logSessionsListBox.SelectedItem;
+            TelemetrySession selectedLogSession = (TelemetrySession)lstBxLogSessions.SelectedItem;
+
+            txtPlaneName.Text = selectedLogSession.planeName;
+
+            pylonLogEntry.planeName = selectedLogSession.planeName;
 
             List<Double[]> firstGraphData = selectedLogSession.getSelectedDataBlocks("RPM");
 
@@ -84,11 +91,13 @@ namespace PylonLog.Core
 
             host.Child = graph;
 
+            graphWindow.Left = this.Left + this.ActualWidth;
+
             graphWindow.MainGrid.Children.Add(host);
 
+            graphWindow.Width = graph.Width;
 
-            graphWindow.Width = graph.Width + 2 * 20;
-            graphWindow.Height = graph.Height + 3 * 20;
+            graphWindow.Height = graph.Height;
 
             graphWindow.Title = selectedLogSession.ToString();
 
@@ -97,42 +106,25 @@ namespace PylonLog.Core
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
-            TelemetrySession selectedLogSession = (TelemetrySession)logSessionsListBox.SelectedItem;
+            TelemetrySession selectedLogSession = (TelemetrySession)lstBxLogSessions.SelectedItem;
 
-             pylonLogEntry.planeName = selectedLogSession.planeName;
-
-            //foreach (DataBlock dataBlock in selectedLogSession.dataBlocks)
-
-            //{
-            //    pylonLogEntry.DataBlocks.Add(dataBlock);
-            //}
-
+            foreach (DataBlock dataBlock in selectedLogSession.dataBlocks)
+            {
+                if (dataBlock.dataValue != 0)
+                {
+                    pylonLogEntry.DataBlocks.Add(dataBlock);
+                }
+            }
             pylonLogEntry.telemetryDuration = selectedLogSession.duration;
 
-            _context.pylonLogEntries.Add(pylonLogEntry);
+            pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
 
-            _context.SaveChanges();
+            pylonLogContext.SaveChanges();
 
-            this.pylonLogEntryDataGrid.Items.Refresh();
+            pylonLogEntry = new PylonLogEntry();
 
-            this.logSessionsListBox.Focus();
-
-        }
-
-        private void button_Click_2(object sender, RoutedEventArgs e)
-        {
-            _context.SaveChanges();
-            this.pylonLogEntryDataGrid.Items.Refresh();
-        }
-
-        private void TabItem_GotFocus(object sender, RoutedEventArgs e)
-        {
-            _context.pylonLogEntries.Load();
-
-            this.pylonLogEntryDataGrid.Items.Refresh();
+            this.lstBxLogSessions.Focus();
         }
     }
-
-
 }
 

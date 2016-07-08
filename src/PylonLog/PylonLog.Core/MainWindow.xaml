@@ -5,159 +5,132 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PylonLog.Core"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Name="MainWindow1" x:Class="PylonLog.Core.MainWindow"
+        
         mc:Ignorable="d"
-        Title="Pylon Log" Height="350" Width="564.047" Loaded="MainWindow1_Loaded">
+        
+        Title="Pylon Log" SizeToContent="WidthAndHeight" Loaded="MainWindow1_Loaded" WindowStartupLocation="CenterScreen">
+    
     <Window.Resources>
         <CollectionViewSource x:Key="pylonLogEntryViewSource" d:DesignSource="{d:DesignInstance {x:Type local:PylonLogEntry}, CreateList=True}"/>
         <CollectionViewSource x:Key="pylonLogEntryDataBlocksViewSource" Source="{Binding DataBlocks, Source={StaticResource pylonLogEntryViewSource}}"/>
+        <CollectionViewSource x:Key="propViewSource"/>
+        <CollectionViewSource x:Key="plugViewSource"/>
+
     </Window.Resources>
-    <Grid HorizontalAlignment="Left" Height="313" Margin="7,2,0,0" VerticalAlignment="Top" Width="544">
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="313" VerticalAlignment="Top" Width="544">
-            <TabItem Header="Quick Inspect" RenderTransformOrigin="0.5,0.507" Margin="-2,0,-18.667,0">
-                <Grid Background="#FFE5E5E5" Margin="0,-7,0,6.333">
-                    <ListBox x:Name="logSessionsListBox" HorizontalAlignment="Left" Height="97" Margin="24,16,0,0" VerticalAlignment="Top" Width="188" SelectionChanged="logSessionsListBox_SelectionChanged"/>
-                    <Button x:Name="openLogToInspectButton" Content="Open Spektrum File" HorizontalAlignment="Left" Height="25" Margin="24,118,0,0" VerticalAlignment="Top" Width="162" Click="openLogToInspectButton_Click"/>
-                    <Button x:Name="createLogEntryForSessionButton" Content="Create Log Entry For Selected Session" HorizontalAlignment="Left" Height="23" Margin="235,19,0,0" VerticalAlignment="Top" Width="208" Click="button_Click_1"/>
-                    <Grid x:Name="grid1" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="292,88,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="104.084"/>
-                            <ColumnDefinition Width="5.916"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="15.962"/>
-                            <RowDefinition Height="16.038"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Engine" Grid.Column="0" HorizontalAlignment="Left" Margin="-32,10,0,-4" Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-                        <TextBox x:Name="engineIDTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="14,10,-24,-1" Grid.Row="0" Text="{Binding engineID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-                    </Grid>
-                    <Grid x:Name="grid2" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="292,140,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="EntryType" Grid.Column="0" HorizontalAlignment="Left" Margin="-54,-72,0,78" Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
-                        <TextBox x:Name="entryTypeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="13,-70,-21,79" Grid.Row="0" Text="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                    </Grid>
-                    <Grid x:Name="grid3" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="343,224,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="New Plug?" Grid.Column="0" HorizontalAlignment="Left" Margin="-100,-75,0,81" Grid.Row="0" VerticalAlignment="Center"/>
-                        <CheckBox x:Name="newPlugCheckBox" Content="" HorizontalAlignment="Left" IsChecked="{Binding newPlug, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="-33,-70,0,86" Grid.Row="0" VerticalAlignment="Center"/>
-                    </Grid>
-                    <Grid x:Name="grid4" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="350,182,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Plug Color" Grid.Column="0" HorizontalAlignment="Left" Margin="-116,-54,0,60" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="plugColorTextBox" HorizontalAlignment="Left" Height="23" Margin="-42,-52,-2,61" Grid.Row="0" Text="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
-                    </Grid>
-                    <Grid x:Name="grid5" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="248,202,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Relative Needle" Grid.Column="0" HorizontalAlignment="Right" Margin="-51,-77,105.667,83" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="relativeNeedleTextBox" HorizontalAlignment="Left" Height="23" Margin="58,-77,0,86" Grid.Row="0" Text="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
-                        <Grid x:Name="grid6" HorizontalAlignment="Left" Margin="84,3,0,0" VerticalAlignment="Top">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </Grid>
-                    <Grid x:Name="grid7" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="179,211,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="plane Name:" Grid.Column="1" HorizontalAlignment="Left" Margin="49,0,0,6" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="planeNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="132,2,-126,7" Grid.Row="0" Text="{Binding planeName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                    </Grid>
-                    <Grid x:Name="grid8" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="153,221,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="relative Needle:" Grid.Column="1" HorizontalAlignment="Left" Margin="77,-177,-43,184.333" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="relativeNeedleTextBox1" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="176,-175,-170,185.333" Grid.Row="0" Text="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                    </Grid>
-                    <Grid x:Name="grid9" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="79,200,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="telemetry Duration:" Grid.Column="1" HorizontalAlignment="Left" Margin="112,-25,-98,31" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="telemetryDurationTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="231,-24,-225,33" Grid.Row="0" Text="{Binding telemetryDuration, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                    </Grid>
-                    <xctk:DateTimePicker HorizontalAlignment="Left" Margin="73,221,0,0" VerticalAlignment="Top" />
-                    <Grid x:Name="grid10" DataContext="{StaticResource pylonLogEntryViewSource}" HorizontalAlignment="Left" Margin="387,254,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="entry Date Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-                        <DatePicker x:Name="entryDateTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding entryDateTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-                    </Grid>
+   
+    <DockPanel x:Name="dckPnlMain" LastChildFill="True">
+        <StackPanel x:Name="stckPnlStatus" Background="LightGray" DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <TextBlock x:Name = "txtBxStatus" Text="Status:" />
+        </StackPanel>
+        
+        <Menu x:Name="menuMain" DockPanel.Dock="Top" Height="20">
+            <MenuItem Header="Help"></MenuItem>
+        </Menu>
+        
+        <Grid Margin="10,10,10,10"  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="Auto" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Column="0" Grid.RowSpan="2">
+                <Label Content="Sessions in Spetrum File" VerticalAlignment= "Bottom" />
+                <ListBox x:Name="lstBxLogSessions" Grid.Row="1" VerticalAlignment="Top" Width="Auto" 
+                         SelectionChanged="logSessionsListBox_SelectionChanged" MinHeight="100" MaxHeight="200"/>
+                <Button x:Name="btnOpenSpektrumLog" Grid.Row="2" Height="30" VerticalAlignment="Top" 
+                        Content="Open Spektrum File" Click="openLogToInspectButton_Click"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Column="1" Grid.RowSpan="2">
+                <Grid x:Name="gridPylonEntryFields" Margin=" 10,26,10,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width ="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Plane:" Grid.Column="0" Grid.Row="0" />
+                    <TextBox x:Name="txtPlaneName" Grid.Column="1" Grid.Row="0" 
+                             Text="{Binding planeName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Date/Time:" Grid.Row="1"/>
+                    <xctk:DateTimePicker x:Name="dateTimePickerEntryDateTime" Grid.Column="1" Grid.Row="1" 
+                                         Value="{Binding entryDateTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                    
+                    <Label Content="Entry Type:" Grid.Row="2" />
+                    <TextBox x:Name="txtEntryType" Grid.Column="1"  Grid.Row="2" 
+                             Text="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Engine ID:" Grid.Column="0" Grid.Row="3"/>
+                    <TextBox x:Name="txtEngineID" Grid.Column="1" Grid.Row="3" 
+                             Text="{Binding engineID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+                    <Label Content="New Plug?" Grid.Column="0" Grid.Row="4" />
+                    <CheckBox x:Name="chkBxNewPlug" Grid.Column="1" Content="" Grid.Row="4" VerticalAlignment="Center" 
+                              IsChecked="{Binding newPlug, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Plug Color" Grid.Column="0" Grid.Row="5" />
+                    <TextBox x:Name="txtPlugColor" Grid.Column="1"  Grid.Row="5" 
+                             Text="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Needle Pos. Change:" Grid.Column="0" Grid.Row="6"/>
+                    <TextBox x:Name="txtRelativeNeedlePosition" 
+                             Grid.Column="1" Grid.Row="6" 
+                             Text="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Notes:" 
+                           Grid.Column="0" Grid.Row="7"/>
+                    <TextBox x:Name="txtNotes" 
+                             Grid.Column="1" Grid.Row="7" MaxWidth="300" TextWrapping="Wrap" 
+                             Text="{Binding notes, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Prop:" 
+                           Grid.Column="0" Grid.Row="8" />
+                    <ComboBox x:Name="cmbBxProp" 
+                              Grid.Column="1" Grid.Row="8" 
+                              ItemsSource = "{Binding Source={StaticResource propViewSource}}"
+                              SelectedValue="{Binding prop, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                              DisplayMemberPath="name"                                                      
+                               />
+
+                   <Label Content="Plug Type:" Grid.Column="0" Grid.Row="9"/>
+                    <ComboBox x:Name="cmbBxPlug" 
+                              Grid.Column="1" Grid.Row="9" 
+                              ItemsSource = "{Binding Source={StaticResource plugViewSource }}"
+                              SelectedValue="{Binding plugType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                              DisplayMemberPath="name"                                                      
+                               />
+                  
+                    <Label Content="Temperature:" Grid.Column="0" Grid.Row="10"/>
+                    <TextBox x:Name="txtTemperature" 
+                             Grid.Column="1" Grid.Row="10"  
+                             Text="{Binding temperature, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    <Label Content="Humidity:" Grid.Column="0" Grid.Row="11"/>
+                    <TextBox x:Name="txtHumidity" 
+                             Grid.Column="1" Grid.Row="11"  
+                             Text="{Binding humidity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
                 </Grid>
-            </TabItem>
-            <TabItem Header="Create Log Entries" Margin="22.667,0,-18.333,0">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
-            <TabItem Header="Review Log" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Margin="22.667,0,-42.333,0" Width="105" GotFocus="TabItem_GotFocus">
-                <Grid Background="#FFE5E5E5" DataContext="{StaticResource pylonLogEntryViewSource}">
-                    <DataGrid x:Name="pylonLogEntryDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="0,10,15,71.333" RowDetailsVisibilityMode="VisibleWhenSelected">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="engineIDColumn" Binding="{Binding engineID}" Header="engine ID" Width="SizeToHeader"/>
-                            <DataGridTemplateColumn x:Name="entryDateTimeColumn" Header="entry Date Time" Width="SizeToHeader">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DatePicker SelectedDate="{Binding entryDateTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn x:Name="entryTypeColumn" Binding="{Binding entryType}" Header="entry Type" Width="SizeToHeader"/>
-                            <DataGridCheckBoxColumn x:Name="newPlugColumn" Binding="{Binding newPlug}" Header="new Plug" Width="SizeToHeader"/>
-                            <DataGridTextColumn x:Name="planeNameColumn" Binding="{Binding planeName}" Header="plane Name" Width="SizeToHeader"/>
-                            <DataGridTextColumn x:Name="plugColorColumn" Binding="{Binding plugColor}" Header="plug Color" Width="SizeToHeader"/>
-                            <DataGridTextColumn x:Name="pylonLogEntryIDColumn" Binding="{Binding pylonLogEntryID}" Header="pylon Log Entry ID" Width="SizeToHeader"/>
-                            <DataGridTextColumn x:Name="relativeNeedleColumn" Binding="{Binding relativeNeedle}" Header="relative Needle" Width="SizeToHeader"/>
-                            <DataGridTextColumn x:Name="telemetryDurationColumn" Binding="{Binding telemetryDuration}" Header="telemetry Duration" Width="SizeToHeader"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="20" Margin="202,226,0,0" VerticalAlignment="Top" Width="91" Click="button_Click_2"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
-    </Grid>
+                <Button x:Name="btnCreateLogEntryFromSelectedSession" Content="Create Log Entry For Selected Session" 
+                        Margin="10,0,10,0" Click="button_Click_1"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>
