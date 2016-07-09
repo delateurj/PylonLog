@@ -46,7 +46,10 @@ namespace PylonLog.Core
     }
     public class PylonLogContext : DbContext
     {
-        public PylonLogContext() : base()
+        private static string SQLServerLocal2012 = @"Data Source=(LocalDb)\v11.0;Initial Catalog=PylonLogDB2012LocalDB;Integrated Security=SSPI;";
+        private static string SQLServerLocal2014 = @"Data Source = (localdb)\mssqllocaldb; Initial Catalog = PylonLogDB2014LocalDB; Integrated Security = SSPI; MultipleActiveResultSets=True";
+
+        public PylonLogContext() : base(SQLServerLocal2012)
         {
             Database.SetInitializer(new PylonLogInitializer());
 

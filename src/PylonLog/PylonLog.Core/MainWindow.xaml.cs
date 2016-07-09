@@ -25,7 +25,7 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-          //  pylonLogContext.Database.Initialize(false);
+             pylonLogContext.Database.Initialize(false);
 
             dckPnlMain.DataContext = pylonLogEntry;
         }
