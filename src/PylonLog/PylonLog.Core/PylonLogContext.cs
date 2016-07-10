@@ -33,7 +33,7 @@ namespace PylonLog.Core
             defaultPlugs.Add(new GlowPlug("Merlin Red"));
             defaultPlugs.Add(new GlowPlug("Merlin Green"));
             defaultPlugs.Add(new GlowPlug("Merlin Black"));
-            defaultPlugs.Add(new GlowPlug("Merlin Globee"));
+            defaultPlugs.Add(new GlowPlug("Globee Style"));
             defaultPlugs.Add(new GlowPlug("Other"));
 
             foreach (GlowPlug plug in defaultPlugs)

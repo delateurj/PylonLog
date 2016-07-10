@@ -16,6 +16,8 @@ namespace PylonLog.Core
 
         public int dataValue { get; set; }
 
+        public int PylonLogEntryID { get; set; }
+
         public virtual PylonLogEntry pylonLogEntry { get; set; }
 
         public void populateTimeStampFromRawData()

@@ -8,8 +8,8 @@
         
         mc:Ignorable="d"
         
-        Title="Pylon Log" SizeToContent="WidthAndHeight" Loaded="MainWindow1_Loaded" WindowStartupLocation="CenterScreen">
-    
+        Title="Pylon Log" SizeToContent="WidthAndHeight" Loaded="MainWindow1_Loaded" WindowStartupLocation="Manual">
+
     <Window.Resources>
         <CollectionViewSource x:Key="pylonLogEntryViewSource" d:DesignSource="{d:DesignInstance {x:Type local:PylonLogEntry}, CreateList=True}"/>
         <CollectionViewSource x:Key="pylonLogEntryDataBlocksViewSource" Source="{Binding DataBlocks, Source={StaticResource pylonLogEntryViewSource}}"/>
@@ -17,125 +17,120 @@
         <CollectionViewSource x:Key="plugViewSource"/>
 
     </Window.Resources>
-   
+
     <DockPanel x:Name="dckPnlMain" LastChildFill="True">
         <StackPanel x:Name="stckPnlStatus" Background="LightGray" DockPanel.Dock="Bottom" Orientation="Horizontal">
             <TextBlock x:Name = "txtBxStatus" Text="Status:" />
         </StackPanel>
-        
+
         <Menu x:Name="menuMain" DockPanel.Dock="Top" Height="20">
             <MenuItem Header="Help"></MenuItem>
         </Menu>
-        
-        <Grid Margin="10,10,10,10"  >
+
+        <Grid Margin="10,10,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition  Width="Auto" />
+                <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="*"/>
+
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
-            
-            <StackPanel Grid.Column="0" Grid.RowSpan="2">
+
+            <StackPanel Grid.Column="0" Margin="0,0,20,0">
                 <Label Content="Sessions in Spetrum File" VerticalAlignment= "Bottom" />
-                <ListBox x:Name="lstBxLogSessions" Grid.Row="1" VerticalAlignment="Top" Width="Auto" 
-                         SelectionChanged="logSessionsListBox_SelectionChanged" MinHeight="100" MaxHeight="200"/>
-                <Button x:Name="btnOpenSpektrumLog" Grid.Row="2" Height="30" VerticalAlignment="Top" 
+                <Button x:Name="btnOpenSpektrumLog"  Height="30" VerticalAlignment="Top" 
                         Content="Open Spektrum File" Click="openLogToInspectButton_Click"/>
-            </StackPanel>
+                <ListBox x:Name="lstBxLogSessions" VerticalAlignment="Top" Width="Auto" 
+                         SelectionChanged="logSessionsListBox_SelectionChanged" MinHeight="100" MaxHeight="200"/>
+                </StackPanel>
             
-            <StackPanel Grid.Column="1" Grid.RowSpan="2">
-                <Grid x:Name="gridPylonEntryFields" Margin=" 10,26,10,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width ="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Content="Plane:" Grid.Column="0" Grid.Row="0" />
-                    <TextBox x:Name="txtPlaneName" Grid.Column="1" Grid.Row="0" 
-                             Text="{Binding planeName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-
-                    <Label Content="Date/Time:" Grid.Row="1"/>
-                    <xctk:DateTimePicker x:Name="dateTimePickerEntryDateTime" Grid.Column="1" Grid.Row="1" 
-                                         Value="{Binding entryDateTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                    
-                    <Label Content="Entry Type:" Grid.Row="2" />
-                    <TextBox x:Name="txtEntryType" Grid.Column="1"  Grid.Row="2" 
-                             Text="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-
-                    <Label Content="Engine ID:" Grid.Column="0" Grid.Row="3"/>
-                    <TextBox x:Name="txtEngineID" Grid.Column="1" Grid.Row="3" 
-                             Text="{Binding engineID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-
-                    <Label Content="New Plug?" Grid.Column="0" Grid.Row="4" />
-                    <CheckBox x:Name="chkBxNewPlug" Grid.Column="1" Content="" Grid.Row="4" VerticalAlignment="Center" 
-                              IsChecked="{Binding newPlug, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-
-                    <Label Content="Plug Color" Grid.Column="0" Grid.Row="5" />
-                    <TextBox x:Name="txtPlugColor" Grid.Column="1"  Grid.Row="5" 
-                             Text="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-
-                    <Label Content="Needle Pos. Change:" Grid.Column="0" Grid.Row="6"/>
-                    <TextBox x:Name="txtRelativeNeedlePosition" 
-                             Grid.Column="1" Grid.Row="6" 
-                             Text="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+            <Button x:Name="btnOpenCreateLogEntry" Grid.Column="1"  Height="30" VerticalAlignment="Center" 
+                        Content=">> Create Log >>" Click="btnOpenCreateLogEntry_Click" />
 
 
-                    <Label Content="Prop:" 
-                           Grid.Column="0" Grid.Row="7" />
-                    <ComboBox x:Name="cmbBxProp" 
-                              Grid.Column="1" Grid.Row="7" 
-                              ItemsSource = "{Binding Source={StaticResource propViewSource}}"
-                              SelectedValue="{Binding prop, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                              DisplayMemberPath="name"                                                      
-                               />
+            <StackPanel Grid.Column="2" Margin="20,0,8,0">
+                <Label Content="Log Entries" VerticalAlignment= "Bottom" />
 
-                   <Label Content="Plug Type:" Grid.Column="0" Grid.Row="8"/>
-                    <ComboBox x:Name="cmbBxPlug" 
-                              Grid.Column="1" Grid.Row="8" 
-                              ItemsSource = "{Binding Source={StaticResource plugViewSource }}"
-                              SelectedValue="{Binding plugType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                              DisplayMemberPath="name"                                                      
-                               />
-                  
-                    <Label Content="Temperature:" Grid.Column="0" Grid.Row="9"/>
-                    <TextBox x:Name="txtTemperature" 
-                             Grid.Column="1" Grid.Row="9"  
-                             Text="{Binding temperature, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                <DataGrid x:Name="dgPylonLog"   AutoGenerateColumns="False" MaxHeight="200"
+                               DataContext="{StaticResource pylonLogEntryViewSource}" ItemsSource="{Binding}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="txtGridPlaneName"  Header="Plane" Binding="{Binding planeName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
-                    <Label Content="Humidity:" Grid.Column="0" Grid.Row="10"/>
-                    <TextBox x:Name="txtHumidity" 
-                             Grid.Column="1" Grid.Row="10"  
-                             Text="{Binding humidity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                            <DataGridTemplateColumn Header="Date/Time">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <xctk:DateTimePicker x:Name="dateTimePickerEntryDateTime" MinWidth="120"
+                                                             Format="Custom"
+                                                             FormatString=" M'/'dd'/'yy hh':'mm tt"
+                                         Value="{Binding entryDateTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Prop" MinWidth="85">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox x:Name="dgCmboProp" 
+                                            ItemsSource = "{Binding Source={StaticResource propViewSource}}"
+                                            SelectedValue="{Binding prop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError =true, ValidatesOnExceptions=true}"
+                                            DisplayMemberPath="name" 
+                                            IsSynchronizedWithCurrentItem="false"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Plug">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox x:Name="dgCmboPlugType" MinWidth="85"
+                                            ItemsSource = "{Binding Source={StaticResource plugViewSource}}"
+                                            SelectedValue="{Binding plugType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError =true, ValidatesOnExceptions=true}"
+                                            DisplayMemberPath="name" 
+                                            IsSynchronizedWithCurrentItem="false"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridCheckBoxColumn x:Name="chkBxGridNewPlug" Header="New&#x0a;Plug?" Binding="{Binding newPlug, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                    <Label Content="Exclude From Stats:" Grid.Column="0" Grid.Row="11" />
-                    <CheckBox x:Name="chkBxExcludeFromStats" Grid.Column="1" Content="" Grid.Row="11" VerticalAlignment="Center" 
-                              IsChecked="{Binding excludeFromStats, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                        <DataGridTextColumn x:Name="txtGridPlugColor"  Header="Color" Binding="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                    <Label Content="Notes:" 
-                           Grid.Column="0" Grid.Row="12"/>
-                    <TextBox x:Name="txtNotes" 
-                             Grid.Column="1" Grid.Row="12" MaxWidth="300" TextWrapping="Wrap" 
-                             Text="{Binding notes, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                </Grid>
-                <Button x:Name="btnCreateLogEntryFromSelectedSession" Content="Create Log Entry For Selected Session" 
-                        Margin="10,0,10,0" Click="button_Click_1"/>
+
+                        <DataGridTextColumn x:Name="txtGridEntryType"  Header="Entry Type" Binding="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                            <DataGridTextColumn x:Name="txtGridEngineID"  Header="Engine" Binding="{Binding engineID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+                        <DataGridTextColumn x:Name="txtGridNeedle"  Header="Needle&#x0a;Relative&#x0a;To Last" Binding="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                            
+
+                            <DataGridTextColumn x:Name="txtGridTemperature"  Header="Temp" 
+                                                Binding="{Binding temperature, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                            <DataGridTextColumn x:Name="txtGridHumidity"  Header="Humidity" 
+                                                Binding="{Binding humidity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridCheckBoxColumn x:Name="chkBxGridExclude" Header="Excl.&#x0a;From&#x0a;Stats" 
+                                                    Binding="{Binding excludeFromStats, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtGridNotes"  Header="Notes" MinWidth="150" 
+                                                Binding="{Binding notes, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" >
+                                                <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                            </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn.EditingElementStyle>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                    <Setter Property="AcceptsReturn" Value="true" />
+                                </Style>
+                            </DataGridTextColumn.EditingElementStyle>
+                        </DataGridTextColumn>
+
+                    </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="btnSaveDataGrid" Content="Save" Margin="0,10,0,0" MaxWidth="150" Click="btnSaveDataGrid_Click"/>
+               
+                
             </StackPanel>
         </Grid>
     </DockPanel>

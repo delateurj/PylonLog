@@ -25,9 +25,12 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-             pylonLogContext.Database.Initialize(false);
+            pylonLogContext.Database.Initialize(false);
 
             dckPnlMain.DataContext = pylonLogEntry;
+
+            this.Left = 0;
+            this.Top = 0;
         }
 
         private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
@@ -43,7 +46,7 @@ namespace PylonLog.Core
             pylonLogContext.plugs.Load();
 
             pylonLogContext.pylonLogEntries.Load();
-           
+
             plugViewSource.Source = pylonLogContext.plugs.Local;
 
             propViewSource.Source = pylonLogContext.props.Local;
@@ -75,32 +78,63 @@ namespace PylonLog.Core
 
             TelemetrySession selectedLogSession = (TelemetrySession)lstBxLogSessions.SelectedItem;
 
-             pylonLogEntry.planeName = selectedLogSession.planeName;
+            if (selectedLogSession != null)
+            {
+                List<Double[]> firstGraphData = selectedLogSession.getSelectedDataBlocks("RPM");
 
-            List<Double[]> firstGraphData = selectedLogSession.getSelectedDataBlocks("RPM");
+                List<Double[]> secondGraphData = selectedLogSession.getSelectedDataBlocks("RX-VOLT");
 
-            List<Double[]> secondGraphData = selectedLogSession.getSelectedDataBlocks("RX-VOLT");
+                graph = new PylonLogGraphUserControl.PylonLogGraphUserControl(firstGraphData, secondGraphData);
 
-            graph = new PylonLogGraphUserControl.PylonLogGraphUserControl(firstGraphData, secondGraphData);
+                host.Child = graph;
 
-            host.Child = graph;
+                graphWindow.Left = this.Left;
+                graphWindow.Top = this.Top + this.ActualHeight;
 
-            graphWindow.Left = this.Left + this.ActualWidth;
+                graphWindow.MainGrid.Children.Add(host);
 
-            graphWindow.MainGrid.Children.Add(host);
+                graphWindow.Width = graph.Width;
 
-            graphWindow.Width = graph.Width;
+                graphWindow.Height = graph.Height;
 
-            graphWindow.Height = graph.Height;
+                graphWindow.Title = selectedLogSession.ToString();
 
-            graphWindow.Title = selectedLogSession.ToString();
-
-            graphWindow.Show();
+                graphWindow.Show();
+            }
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
+        private void btnSaveDataGrid_Click(object sender, RoutedEventArgs e)
+        {
+            pylonLogContext.SaveChanges();
+
+            dgPylonLog.Focus();
+
+            dgPylonLog.SelectedItem = this.dgPylonLog.Items.MoveCurrentToLast();
+
+            dgPylonLog.ScrollIntoView(dgPylonLog.SelectedItem);
+        }
+
+        private void btnOpenCreateLogEntry_Click(object sender, RoutedEventArgs e)
         {
             TelemetrySession selectedLogSession = (TelemetrySession)lstBxLogSessions.SelectedItem;
+   
+            PylonLogEntry previous = pylonLogEntry;
+
+            pylonLogEntry = new PylonLogEntry();
+
+            pylonLogEntry.planeName = selectedLogSession.planeName;
+
+            pylonLogEntry.humidity = previous.humidity;
+
+            pylonLogEntry.temperature = previous.temperature;
+
+            pylonLogEntry.prop = previous.prop;
+
+            pylonLogEntry.plugType = previous.plugType;
+
+            pylonLogEntry.engineID = previous.engineID;
+
+            pylonLogEntry.entryType = previous.entryType;
 
             foreach (DataBlock dataBlock in selectedLogSession.dataBlocks)
             {
@@ -113,32 +147,16 @@ namespace PylonLog.Core
 
             pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
 
-            PylonLogEntry justSavedPylonLog = pylonLogEntry;
-
             pylonLogContext.SaveChanges();
 
-            pylonLogEntry = new PylonLogEntry();
+            spektrumLog.logSessions.Remove(selectedLogSession);
 
-            dckPnlMain.DataContext = pylonLogEntry;
+            this.dgPylonLog.Focus();
 
-            //Copy the attributes that are likely to be the same for the
-            //next entry.
+            dgPylonLog.SelectedItem = this.dgPylonLog.Items.MoveCurrentToLast();
 
-            pylonLogEntry.planeName = justSavedPylonLog.planeName;
+            dgPylonLog.ScrollIntoView(dgPylonLog.SelectedItem);
 
-            pylonLogEntry.humidity = justSavedPylonLog.humidity;
-
-            pylonLogEntry.temperature = justSavedPylonLog.temperature;
-
-            pylonLogEntry.prop = justSavedPylonLog.prop;
-
-            pylonLogEntry.plugType = justSavedPylonLog.plugType;
-
-            pylonLogEntry.engineID = justSavedPylonLog.engineID;
-
-            pylonLogEntry.entryType = justSavedPylonLog.entryType;
-
-            this.lstBxLogSessions.Focus();
         }
     }
 }

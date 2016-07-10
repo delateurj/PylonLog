@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using PylonLog.Utilities;
+using System.Collections.ObjectModel;
 
 namespace PylonLog.Core
 {
@@ -13,7 +14,7 @@ namespace PylonLog.Core
     {
         public byte[] rawData;
        
-        public List<TelemetrySession> logSessions = new List<TelemetrySession>();
+        public ObservableCollection<TelemetrySession> logSessions = new ObservableCollection<TelemetrySession>();
 
         public SpektrumLog(string theFilePath)
         {

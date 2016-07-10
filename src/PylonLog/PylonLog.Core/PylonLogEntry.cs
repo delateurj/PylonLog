@@ -62,7 +62,7 @@ namespace PylonLog.Core
 
         public GlowPlug plugType { get; set; }
 
-        public virtual ObservableCollection<DataBlock> DataBlocks { get; private set; }
+        public virtual ObservableCollection<DataBlock> DataBlocks { get; set; }
     }
 
     public class Prop
