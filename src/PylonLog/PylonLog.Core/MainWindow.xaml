@@ -40,6 +40,7 @@
 
             <StackPanel Grid.Column="0" Margin="0,0,20,0">
                 <Label Content="Sessions in Spetrum File" VerticalAlignment= "Bottom" />
+                <CheckBox x:Name="chkBoxNonZeroRPM" FlowDirection="RightToLeft" Content="Show Sessions With Non Zero RPM" Click="chkBoxNonZeroRPM_Click" />
                 <Button x:Name="btnOpenSpektrumLog"  Height="30" VerticalAlignment="Top" 
                         Content="Open Spektrum File" Click="openLogToInspectButton_Click"/>
                 <ListBox x:Name="lstBxLogSessions" VerticalAlignment="Top" Width="Auto" 

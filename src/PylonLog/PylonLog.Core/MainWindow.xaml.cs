@@ -65,7 +65,14 @@ namespace PylonLog.Core
             {
                 spektrumLog = new SpektrumLog(openFileDialog.FileName);
 
-                lstBxLogSessions.ItemsSource = spektrumLog.logSessions;
+                if (chkBoxNonZeroRPM.IsChecked == true)
+                {
+                    lstBxLogSessions.ItemsSource = spektrumLog.logSessions;
+                }
+                else
+                {
+                    lstBxLogSessions.ItemsSource = spektrumLog.logSessions.Where(element => element.numberOfNonZeroDataBlocksOfThisDataType("RPM") > 0);
+                }
             }
         }
 
@@ -97,7 +104,7 @@ namespace PylonLog.Core
 
                 graphWindow.Height = graph.Height;
 
-                graphWindow.Title = selectedLogSession.ToString();
+                graphWindow.Title = selectedLogSession.ToString() + " Non zero rpm:" + selectedLogSession.numberOfNonZeroDataBlocksOfThisDataType("RPM");
 
                 graphWindow.Show();
             }
@@ -157,6 +164,28 @@ namespace PylonLog.Core
 
             dgPylonLog.ScrollIntoView(dgPylonLog.SelectedItem);
 
+        }
+
+        private void chkBoxNonZeroRPM_Click(object sender, RoutedEventArgs e)
+        {
+            if (spektrumLog != null)
+            {
+
+
+                if (spektrumLog.logSessions != null)
+                {
+
+                    if (chkBoxNonZeroRPM.IsChecked == true)
+                    {
+                        lstBxLogSessions.ItemsSource = spektrumLog.logSessions;
+                    }
+                    else
+                    {
+                        lstBxLogSessions.ItemsSource = spektrumLog.logSessions.Where(element => element.numberOfNonZeroDataBlocksOfThisDataType("RPM") > 0);
+                    }
+                }
+            }
+            
         }
     }
 }

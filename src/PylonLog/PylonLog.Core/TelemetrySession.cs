@@ -17,6 +17,11 @@ namespace PylonLog.Core
 
         public int duration { get; set; }
 
+        public int numberOfNonZeroDataBlocksOfThisDataType(string dataType)
+        {
+            return dataBlocks.Count(element => element.dataType == dataType && element.dataValue > 0);
+        }
+
         public byte[] mainHeader;
 
         public List<byte[]> supplementalHeaders = new List<byte[]>();
@@ -81,8 +86,7 @@ namespace PylonLog.Core
                 if(dataBlock.dataType == dataType)
                 {
                     list.Add(dataBlock);
-                }
-               
+                }              
             }
 
             List<Double[]> result = new List<Double[]>();
