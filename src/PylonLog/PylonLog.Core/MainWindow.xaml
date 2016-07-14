@@ -45,8 +45,8 @@
                         Content="Open Spektrum File" Click="openLogToInspectButton_Click"/>
                 <ListBox x:Name="lstBxLogSessions" VerticalAlignment="Top" Width="Auto" 
                          SelectionChanged="logSessionsListBox_SelectionChanged" MinHeight="100" MaxHeight="200"/>
-                </StackPanel>
-            
+            </StackPanel>
+
             <Button x:Name="btnOpenCreateLogEntry" Grid.Column="1"  Height="30" VerticalAlignment="Center" 
                         Content=">> Create Log >>" Click="btnOpenCreateLogEntry_Click" />
 
@@ -55,20 +55,21 @@
                 <Label Content="Log Entries" VerticalAlignment= "Bottom" />
 
                 <DataGrid x:Name="dgPylonLog"   AutoGenerateColumns="False" MaxHeight="200"
-                               DataContext="{StaticResource pylonLogEntryViewSource}" ItemsSource="{Binding}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="txtGridPlaneName"  Header="Plane" Binding="{Binding planeName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                               DataContext="{StaticResource pylonLogEntryViewSource}" ItemsSource="{Binding}" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="txtGridPlaneName"  Header="Plane" Binding="{Binding planeName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
-                            <DataGridTemplateColumn Header="Date/Time">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <xctk:DateTimePicker x:Name="dateTimePickerEntryDateTime" MinWidth="120"
+                        <DataGridTemplateColumn Header="Date/Time">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <xctk:DateTimePicker x:Name="dateTimePickerEntryDateTime" MinWidth="120"
                                                              Format="Custom"
                                                              FormatString=" M'/'dd'/'yy hh':'mm tt"
                                          Value="{Binding entryDateTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+    
                         <DataGridTemplateColumn Header="Prop" MinWidth="85">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -80,6 +81,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+     
                         <DataGridTemplateColumn Header="Plug">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -93,31 +95,47 @@
                         </DataGridTemplateColumn>
                         <DataGridCheckBoxColumn x:Name="chkBxGridNewPlug" Header="New&#x0a;Plug?" Binding="{Binding newPlug, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                        <DataGridTextColumn x:Name="txtGridPlugColor"  Header="Color" Binding="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-
+                        <DataGridTextColumn x:Name="txtGridPlugColor"  Header="Color&#x0a;(0-5)" Binding="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtGridEntryType"  Header="Entry Type" Binding="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                            <DataGridTextColumn x:Name="txtGridEngineID"  Header="Engine" Binding="{Binding engineID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+                        <DataGridTextColumn x:Name="txtGridEngineID"  Header="Engine" Binding="{Binding engineID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+  
                         <DataGridTextColumn x:Name="txtGridNeedle"  Header="Needle&#x0a;Relative&#x0a;To Last" Binding="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                            
-
-                            <DataGridTextColumn x:Name="txtGridTemperature"  Header="Temp" 
+                        <DataGridTextColumn x:Name="txtGridTemperature"  Header="Temp" 
                                                 Binding="{Binding temperature, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                            <DataGridTextColumn x:Name="txtGridHumidity"  Header="Humidity" 
+                        <DataGridTextColumn x:Name="txtGridHumidity"  Header="Hum&#x0a;idity"
                                                 Binding="{Binding humidity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
+                       <DataGridTextColumn x:Name="txtPeakLineRPM"  Header="Peak&#x0a;Line&#x0a;RPM" 
+                                                Binding="{Binding peakRPMOnLine, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtLaunchRPM"  Header="Launch&#x0a;RPM" 
+                                                Binding="{Binding launchRPM, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtLaunchTime"  Header="Launch&#x0a;Time&#x0a;(secs.)" 
+                                                Binding="{Binding launchTimeStamp, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtEndTime"  Header="End&#x0a;Timee&#x0a;(secs.)" 
+                                                Binding="{Binding endTimeStamp, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtAvgRPM"  Header="Avg&#x0a;RPM" 
+                                                Binding="{Binding avgRPM, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+                        
+                        <DataGridTextColumn x:Name="txtAvgPeakRPM"  Header="Avg. Peak&#x0a;RPM" 
+                                                Binding="{Binding avgPeakRPM, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+                        
                         <DataGridCheckBoxColumn x:Name="chkBxGridExclude" Header="Excl.&#x0a;From&#x0a;Stats" 
                                                     Binding="{Binding excludeFromStats, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtGridNotes"  Header="Notes" MinWidth="150" 
                                                 Binding="{Binding notes, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" >
-                                                <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap" />
-                            </Style>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                </Style>
                             </DataGridTextColumn.ElementStyle>
                             <DataGridTextColumn.EditingElementStyle>
                                 <Style TargetType="TextBox">
@@ -128,10 +146,12 @@
                         </DataGridTextColumn>
 
                     </DataGrid.Columns>
-                    </DataGrid>
+                </DataGrid>
+                <StackPanel Orientation="Horizontal">
                     <Button x:Name="btnSaveDataGrid" Content="Save" Margin="0,10,0,0" MaxWidth="150" Click="btnSaveDataGrid_Click"/>
-               
-                
+                    <Button x:Name="btnUpdateAvgRPM" Content="Calc. Avg. RPM of Selected Entry" Margin="10,10,0,0" MaxWidth="250" Click="btnUpdateAvgRPM_Click"/>
+                </StackPanel>
+
             </StackPanel>
         </Grid>
     </DockPanel>

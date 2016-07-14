@@ -20,6 +20,11 @@ namespace PylonLog.Core
 
         public virtual PylonLogEntry pylonLogEntry { get; set; }
 
+
+        public DataBlock shallowClone()
+        {
+            return (DataBlock)this.MemberwiseClone();
+        }
         public void populateTimeStampFromRawData()
         {
             timeStamp = BitConverter.ToInt32(rawData, 0);

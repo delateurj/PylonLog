@@ -11,7 +11,7 @@ using PropertyChanged;
 namespace PylonLog.Core
 {
     [ImplementPropertyChanged]
-    public class PylonLogEntry : INotifyPropertyChanged
+    public class PylonLogEntry
     {
 
         public PylonLogEntry()
@@ -20,16 +20,6 @@ namespace PylonLog.Core
 
             entryDateTime = DateTime.Now;
 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
         }
 
         public int pylonLogEntryID { get; set; }
@@ -45,6 +35,18 @@ namespace PylonLog.Core
         public bool excludeFromStats { get; set; }
 
         public int telemetryDuration { get; set; }
+
+        public int launchTimeStamp { get; set; }
+
+        public int endTimeStamp { get; set; }
+
+        public int peakRPMOnLine { get; set; }
+
+        public int launchRPM { get; set; }
+
+        public int avgRPM { get; set; }
+
+        public int avgPeakRPM { get; set; }
 
         public int plugColor { get; set; }
 
@@ -63,6 +65,29 @@ namespace PylonLog.Core
         public GlowPlug plugType { get; set; }
 
         public virtual ObservableCollection<DataBlock> DataBlocks { get; set; }
+
+        public double averageOfSpecifiedValueType(string valueType, int start)
+        {
+            return averageOfSpecifiedValueType(valueType, start, DataBlocks.ToList().Where(x => x.dataType == valueType).Last().timeStamp);
+        }
+        public double averageOfSpecifiedValueType(string valueType)
+        {
+            return averageOfSpecifiedValueType(valueType, 0, DataBlocks.ToList().Where(x=>x.dataType==valueType).Last().timeStamp);
+        }
+
+        public double averageOfSpecifiedValueType(string valueType, int start, int end)
+        {
+            List<DataBlock> listOfDataBlocksToAverage = DataBlocks?.Where(x => x.dataType == valueType && x.timeStamp >= start && x.timeStamp <= end).ToList();
+
+            if (listOfDataBlocksToAverage.Count > 0)
+            {
+                return listOfDataBlocksToAverage?.Average(x => x.dataValue) ?? 0;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 
     public class Prop
@@ -98,5 +123,9 @@ namespace PylonLog.Core
         {
             this.name = name;
         }
+
+
+       
     }
+
 }

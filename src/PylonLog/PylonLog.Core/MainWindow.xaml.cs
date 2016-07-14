@@ -147,9 +147,12 @@ namespace PylonLog.Core
             {
                 if (dataBlock.dataValue != 0)
                 {
-                    pylonLogEntry.DataBlocks.Add(dataBlock);
+                    pylonLogEntry.DataBlocks.Add(dataBlock.shallowClone());
                 }
             }
+
+            pylonLogEntry.avgRPM =(int) (pylonLogEntry.averageOfSpecifiedValueType("RPM"));
+
             pylonLogEntry.telemetryDuration = selectedLogSession.duration;
 
             pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
@@ -170,11 +173,8 @@ namespace PylonLog.Core
         {
             if (spektrumLog != null)
             {
-
-
                 if (spektrumLog.logSessions != null)
                 {
-
                     if (chkBoxNonZeroRPM.IsChecked == true)
                     {
                         lstBxLogSessions.ItemsSource = spektrumLog.logSessions;
@@ -186,6 +186,25 @@ namespace PylonLog.Core
                 }
             }
             
+        }
+
+        private void btnUpdateAvgRPM_Click(object sender, RoutedEventArgs e)
+        {
+            PylonLogEntry selectedEntry =(PylonLogEntry) dgPylonLog.SelectedItem;
+
+            
+
+            if(selectedEntry  != null)
+            {
+                if(selectedEntry.endTimeStamp != 0)
+                {
+                    selectedEntry.avgRPM = (int)(selectedEntry.averageOfSpecifiedValueType("RPM", 100*selectedEntry.launchTimeStamp, 100*selectedEntry.endTimeStamp));
+                }
+                else
+                {
+                    selectedEntry.avgRPM = (int)(selectedEntry.averageOfSpecifiedValueType("RPM", 100*selectedEntry.launchTimeStamp));
+                }
+            }
         }
     }
 }
