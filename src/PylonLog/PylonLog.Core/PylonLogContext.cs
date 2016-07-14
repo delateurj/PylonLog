@@ -12,34 +12,25 @@ namespace PylonLog.Core
     {
         protected override void Seed(PylonLogContext context)
         {
-            IList<Prop> defaultProps = new List<Prop>();
+            context.props.Add(new Prop("8.8x8.75"));
+            context.props.Add(new Prop("8.8x9.0"));
+            context.props.Add(new Prop("8.8x9.25"));
+            context.props.Add(new Prop("7.4x7.5"));
+            context.props.Add(new Prop("7.4x7.6"));
+            context.props.Add(new Prop("9x6"));
+            context.props.Add(new Prop("Other"));
 
-            defaultProps.Add(new Prop("8.8x8.75"));
-            defaultProps.Add(new Prop("8.8x9.0"));
-            defaultProps.Add(new Prop("8.8x9.25"));
-            defaultProps.Add(new Prop("7.4x7.5"));
-            defaultProps.Add(new Prop("7.4x7.6"));
-            defaultProps.Add(new Prop("9x6"));
-            defaultProps.Add(new Prop("Other"));
+            context.plugs.Add(new GlowPlug("Nelson"));
+            context.plugs.Add(new GlowPlug("Merlin Red"));
+            context.plugs.Add(new GlowPlug("Merlin Green"));
+            context.plugs.Add(new GlowPlug("Merlin Black"));
+            context.plugs.Add(new GlowPlug("Globee Style"));
+            context.plugs.Add(new GlowPlug("Other"));
 
-            foreach (Prop prop in defaultProps)
-            {
-                context.props.Add(prop);
-            }
+            context.engines.Add(new Engine("Nelson I", "Q40"));
+            context.engines.Add(new Engine("Jett I", "426"));
 
-            IList<GlowPlug> defaultPlugs = new List<GlowPlug>();
 
-            defaultPlugs.Add(new GlowPlug("Nelson"));
-            defaultPlugs.Add(new GlowPlug("Merlin Red"));
-            defaultPlugs.Add(new GlowPlug("Merlin Green"));
-            defaultPlugs.Add(new GlowPlug("Merlin Black"));
-            defaultPlugs.Add(new GlowPlug("Globee Style"));
-            defaultPlugs.Add(new GlowPlug("Other"));
-
-            foreach (GlowPlug plug in defaultPlugs)
-            {
-                context.plugs.Add(plug);
-            }
 
             base.Seed(context);
         }
@@ -64,6 +55,10 @@ namespace PylonLog.Core
         public DbSet<Prop> props { get; set; }
 
         public DbSet<GlowPlug> plugs { get; set; }
+
+        public DbSet<Engine> engines { get; set; }
+
+        public DbSet<EngineLogEntry> engineLogEntries { get; set; }
     }
 
 

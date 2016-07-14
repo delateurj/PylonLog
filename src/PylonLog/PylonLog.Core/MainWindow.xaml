@@ -15,6 +15,7 @@
         <CollectionViewSource x:Key="pylonLogEntryDataBlocksViewSource" Source="{Binding DataBlocks, Source={StaticResource pylonLogEntryViewSource}}"/>
         <CollectionViewSource x:Key="propViewSource"/>
         <CollectionViewSource x:Key="plugViewSource"/>
+        <CollectionViewSource x:Key="engineViewSource"/>
 
     </Window.Resources>
 
@@ -69,7 +70,19 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-    
+
+                        <DataGridTemplateColumn Header="Engine" MinWidth="85">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox x:Name="dgCmboEngine" 
+                                            ItemsSource = "{Binding Source={StaticResource engineViewSource}}"
+                                            SelectedValue="{Binding engine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError =true, ValidatesOnExceptions=true}"
+                                            DisplayMemberPath="serialNumber" 
+                                            IsSynchronizedWithCurrentItem="false"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
                         <DataGridTemplateColumn Header="Prop" MinWidth="85">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -98,9 +111,8 @@
                         <DataGridTextColumn x:Name="txtGridPlugColor"  Header="Color&#x0a;(0-5)" Binding="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtGridEntryType"  Header="Entry Type" Binding="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+                       
 
-                        <DataGridTextColumn x:Name="txtGridEngineID"  Header="Engine" Binding="{Binding engineID, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-  
                         <DataGridTextColumn x:Name="txtGridNeedle"  Header="Needle&#x0a;Relative&#x0a;To Last" Binding="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtGridTemperature"  Header="Temp" 

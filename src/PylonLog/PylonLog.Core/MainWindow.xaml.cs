@@ -40,6 +40,8 @@ namespace PylonLog.Core
             CollectionViewSource propViewSource = ((CollectionViewSource)(this.FindResource("propViewSource")));
 
             CollectionViewSource plugViewSource = ((CollectionViewSource)(this.FindResource("plugViewSource")));
+                
+            CollectionViewSource engineViewSource = ((CollectionViewSource)(this.FindResource("engineViewSource")));
 
             pylonLogContext.props.Load();
 
@@ -47,11 +49,15 @@ namespace PylonLog.Core
 
             pylonLogContext.pylonLogEntries.Load();
 
+            pylonLogContext.engines.Load();
+
             plugViewSource.Source = pylonLogContext.plugs.Local;
 
             propViewSource.Source = pylonLogContext.props.Local;
 
             pylonLogEntryViewSource.Source = pylonLogContext.pylonLogEntries.Local;
+
+            engineViewSource.Source = pylonLogContext.engines.Local;
         }
 
 
@@ -139,7 +145,7 @@ namespace PylonLog.Core
 
             pylonLogEntry.plugType = previous.plugType;
 
-            pylonLogEntry.engineID = previous.engineID;
+            pylonLogEntry.engine= previous.engine;
 
             pylonLogEntry.entryType = previous.entryType;
 
@@ -191,8 +197,6 @@ namespace PylonLog.Core
         private void btnUpdateAvgRPM_Click(object sender, RoutedEventArgs e)
         {
             PylonLogEntry selectedEntry =(PylonLogEntry) dgPylonLog.SelectedItem;
-
-            
 
             if(selectedEntry  != null)
             {

@@ -28,8 +28,6 @@ namespace PylonLog.Core
 
         public string planeName { get; set; }
 
-        public string engineID { get; set; }
-
         public string entryType { get; set; }
 
         public bool excludeFromStats { get; set; }
@@ -64,15 +62,50 @@ namespace PylonLog.Core
 
         public GlowPlug plugType { get; set; }
 
+        public virtual Engine engine { get; set; }
+
         public virtual ObservableCollection<DataBlock> DataBlocks { get; set; }
 
         public double averageOfSpecifiedValueType(string valueType, int start)
         {
-            return averageOfSpecifiedValueType(valueType, start, DataBlocks.ToList().Where(x => x.dataType == valueType).Last().timeStamp);
+            if (DataBlocks != null)
+            {
+                List<DataBlock> listOfDesiredBlocks = DataBlocks.Where(x => x.dataType == valueType).ToList();
+
+                if (listOfDesiredBlocks.Count > 0)
+                {
+                    return averageOfSpecifiedValueType(valueType, start, listOfDesiredBlocks.Last().timeStamp);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
         public double averageOfSpecifiedValueType(string valueType)
         {
-            return averageOfSpecifiedValueType(valueType, 0, DataBlocks.ToList().Where(x=>x.dataType==valueType).Last().timeStamp);
+            if (DataBlocks != null)
+            {
+                List<DataBlock> listOfDesiredBlocks = DataBlocks.Where(x => x.dataType == valueType).ToList();
+
+                if (listOfDesiredBlocks.Count > 0)
+                {
+                    return averageOfSpecifiedValueType(valueType, 0, listOfDesiredBlocks.Last().timeStamp);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public double averageOfSpecifiedValueType(string valueType, int start, int end)
