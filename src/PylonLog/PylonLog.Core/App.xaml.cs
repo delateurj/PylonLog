@@ -13,5 +13,7 @@ namespace PylonLog.Core
     /// </summary>
     public partial class App : Application
     {
+       
+
     }
 }

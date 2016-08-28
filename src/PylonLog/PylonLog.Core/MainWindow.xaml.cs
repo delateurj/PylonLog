@@ -10,10 +10,10 @@ using System.Linq;
 
 namespace PylonLog.Core
 {
-
     public partial class MainWindow : Window
     {
-        private PylonLogContext pylonLogContext = new PylonLogContext();
+       
+        public CollectionViewSource plugViewSource;
 
         private PylonLogGraphUserControl.PylonLogGraphUserControl graph;
 
@@ -25,7 +25,7 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-            pylonLogContext.Database.Initialize(false);
+            GlobalDataContext.pylonLogContext.Database.Initialize(false);
 
             dckPnlMain.DataContext = pylonLogEntry;
 
@@ -39,25 +39,25 @@ namespace PylonLog.Core
 
             CollectionViewSource propViewSource = ((CollectionViewSource)(this.FindResource("propViewSource")));
 
-            CollectionViewSource plugViewSource = ((CollectionViewSource)(this.FindResource("plugViewSource")));
-                
+            plugViewSource = ((CollectionViewSource)(this.FindResource("plugViewSource")));
+
             CollectionViewSource engineViewSource = ((CollectionViewSource)(this.FindResource("engineViewSource")));
 
-            pylonLogContext.props.Load();
+            GlobalDataContext.pylonLogContext.props.Load();
 
-            pylonLogContext.plugs.Load();
+            GlobalDataContext.pylonLogContext.plugs.Load();
 
-            pylonLogContext.pylonLogEntries.Load();
+            GlobalDataContext.pylonLogContext.pylonLogEntries.Load();
 
-            pylonLogContext.engines.Load();
+            GlobalDataContext.pylonLogContext.engines.Load();
 
-            plugViewSource.Source = pylonLogContext.plugs.Local;
+            plugViewSource.Source = GlobalDataContext.pylonLogContext.plugs.Local;
 
-            propViewSource.Source = pylonLogContext.props.Local;
+            propViewSource.Source = GlobalDataContext.pylonLogContext.props.Local;
 
-            pylonLogEntryViewSource.Source = pylonLogContext.pylonLogEntries.Local;
+            pylonLogEntryViewSource.Source = GlobalDataContext.pylonLogContext.pylonLogEntries.Local;
 
-            engineViewSource.Source = pylonLogContext.engines.Local;
+            engineViewSource.Source = GlobalDataContext.pylonLogContext.engines.Local;
         }
 
 
@@ -118,7 +118,7 @@ namespace PylonLog.Core
 
         private void btnSaveDataGrid_Click(object sender, RoutedEventArgs e)
         {
-            pylonLogContext.SaveChanges();
+            GlobalDataContext.pylonLogContext.SaveChanges();
 
             dgPylonLog.Focus();
 
@@ -161,9 +161,9 @@ namespace PylonLog.Core
 
             pylonLogEntry.telemetryDuration = selectedLogSession.duration;
 
-            pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
+            GlobalDataContext.pylonLogContext.pylonLogEntries.Add(pylonLogEntry);
 
-            pylonLogContext.SaveChanges();
+            GlobalDataContext.pylonLogContext.SaveChanges();
 
             spektrumLog.logSessions.Remove(selectedLogSession);
 
@@ -210,6 +210,14 @@ namespace PylonLog.Core
                 }
             }
         }
+
+        private void menuRelatedData_Click(object sender, RoutedEventArgs e)
+        {
+            wndMaintainRelatedData relatedDataWindow = new wndMaintainRelatedData();
+
+            relatedDataWindow.Show();
+        }
+
     }
 }
 

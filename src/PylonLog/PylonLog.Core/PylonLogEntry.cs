@@ -64,6 +64,12 @@ namespace PylonLog.Core
 
         public virtual Engine engine { get; set; }
 
+        public int headHeight { get; set; }
+
+        public int deckClearance { get; set; }
+
+        public string timing { get; set; }
+
         public virtual ObservableCollection<DataBlock> DataBlocks { get; set; }
 
         public double averageOfSpecifiedValueType(string valueType, int start)
@@ -123,6 +129,7 @@ namespace PylonLog.Core
         }
     }
 
+    [ImplementPropertyChanged]
     public class Prop
     {
         public int PropID { get; set; }
@@ -142,6 +149,7 @@ namespace PylonLog.Core
 
     }
 
+    [ImplementPropertyChanged]
     public class GlowPlug
     {
         public int GlowPlugID { get; set; }
@@ -152,13 +160,11 @@ namespace PylonLog.Core
         {
 
         }
+
         public GlowPlug(string name)
         {
             this.name = name;
-        }
-
-
-       
+        }    
     }
 
 }

@@ -5,18 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PylonLog.Core"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Name="MainWindow1" x:Class="PylonLog.Core.MainWindow"
-        
         mc:Ignorable="d"
-        
         Title="Pylon Log" SizeToContent="WidthAndHeight" Loaded="MainWindow1_Loaded" WindowStartupLocation="Manual">
 
     <Window.Resources>
-        <CollectionViewSource x:Key="pylonLogEntryViewSource" d:DesignSource="{d:DesignInstance {x:Type local:PylonLogEntry}, CreateList=True}"/>
+        <CollectionViewSource x:Key="pylonLogEntryViewSource" d:DesignSource="{d:DesignInstance {x:Type local:PylonLogEntry}, CreateList=True}" />
         <CollectionViewSource x:Key="pylonLogEntryDataBlocksViewSource" Source="{Binding DataBlocks, Source={StaticResource pylonLogEntryViewSource}}"/>
         <CollectionViewSource x:Key="propViewSource"/>
-        <CollectionViewSource x:Key="plugViewSource"/>
         <CollectionViewSource x:Key="engineViewSource"/>
-
     </Window.Resources>
 
     <DockPanel x:Name="dckPnlMain" LastChildFill="True">
@@ -25,6 +21,7 @@
         </StackPanel>
 
         <Menu x:Name="menuMain" DockPanel.Dock="Top" Height="20">
+            <MenuItem x:Name ="menuRelatedData" Header="Related Data" Click="menuRelatedData_Click"></MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>
 
@@ -41,7 +38,7 @@
 
             <StackPanel Grid.Column="0" Margin="0,0,20,0">
                 <Label Content="Sessions in Spetrum File" VerticalAlignment= "Bottom" />
-                <CheckBox x:Name="chkBoxNonZeroRPM" FlowDirection="RightToLeft" Content="Show Sessions With Non Zero RPM" Click="chkBoxNonZeroRPM_Click" />
+                <CheckBox x:Name="chkBoxNonZeroRPM" FlowDirection="RightToLeft" Content="Show Zero RPM Sessions" Click="chkBoxNonZeroRPM_Click" />
                 <Button x:Name="btnOpenSpektrumLog"  Height="30" VerticalAlignment="Top" 
                         Content="Open Spektrum File" Click="openLogToInspectButton_Click"/>
                 <ListBox x:Name="lstBxLogSessions" VerticalAlignment="Top" Width="Auto" 
@@ -113,12 +110,21 @@
                         <DataGridTextColumn x:Name="txtGridEntryType"  Header="Entry Type" Binding="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
                        
 
-                        <DataGridTextColumn x:Name="txtGridNeedle"  Header="Needle&#x0a;Relative&#x0a;To Last" Binding="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+                        <DataGridTextColumn x:Name="txtGridNeedle" MaxWidth="40" Header="Ndle" Binding="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                        <DataGridTextColumn x:Name="txtGridTemperature"  Header="Temp" 
+                        <DataGridTextColumn x:Name="txtGridTemperature"  Header="Tmp" 
                                                 Binding="{Binding temperature, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                        <DataGridTextColumn x:Name="txtGridHumidity"  Header="Hum&#x0a;idity"
+                        <DataGridTextColumn x:Name="txtHeadHeight"  Header="Hd" MaxWidth="30"
+                                                Binding="{Binding headHeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtDeckClearance"  Header="Dck" 
+                                                Binding="{Binding deckClearance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtTiming"  Header="Tmng" 
+                                                Binding="{Binding timing, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtGridHumidity"  Header="Hum&#x0a;idity" MaxWidth="30"
                                                 Binding="{Binding humidity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                        <DataGridTextColumn x:Name="txtPeakLineRPM"  Header="Peak&#x0a;Line&#x0a;RPM" 
@@ -130,7 +136,7 @@
                         <DataGridTextColumn x:Name="txtLaunchTime"  Header="Launch&#x0a;Time&#x0a;(secs.)" 
                                                 Binding="{Binding launchTimeStamp, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                        <DataGridTextColumn x:Name="txtEndTime"  Header="End&#x0a;Timee&#x0a;(secs.)" 
+                        <DataGridTextColumn x:Name="txtEndTime"  Header="End&#x0a;Time&#x0a;(secs.)" 
                                                 Binding="{Binding endTimeStamp, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtAvgRPM"  Header="Avg&#x0a;RPM" 
