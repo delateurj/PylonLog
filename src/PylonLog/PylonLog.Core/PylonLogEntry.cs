@@ -13,13 +13,11 @@ namespace PylonLog.Core
     [ImplementPropertyChanged]
     public class PylonLogEntry
     {
-
         public PylonLogEntry()
         {
             this.DataBlocks = new ObservableCollection<DataBlock>();
 
             entryDateTime = DateTime.Now;
-
         }
 
         public int pylonLogEntryID { get; set; }
@@ -90,9 +88,9 @@ namespace PylonLog.Core
             else
             {
                 return 0;
-            }
-            
+            }       
         }
+
         public double averageOfSpecifiedValueType(string valueType)
         {
             if (DataBlocks != null)
@@ -146,7 +144,6 @@ namespace PylonLog.Core
         {
             this.name = name;
         }
-
     }
 
     [ImplementPropertyChanged]
@@ -166,5 +163,4 @@ namespace PylonLog.Core
             this.name = name;
         }    
     }
-
 }

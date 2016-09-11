@@ -8,5 +8,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <CollectionViewSource x:Key="plugViewSource" />
+        <CollectionViewSource x:Key="propViewSource" />
+        <CollectionViewSource x:Key="engineViewSource" />
     </Application.Resources>
 </Application>

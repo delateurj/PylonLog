@@ -11,8 +11,6 @@
     <Window.Resources>
         <CollectionViewSource x:Key="pylonLogEntryViewSource" d:DesignSource="{d:DesignInstance {x:Type local:PylonLogEntry}, CreateList=True}" />
         <CollectionViewSource x:Key="pylonLogEntryDataBlocksViewSource" Source="{Binding DataBlocks, Source={StaticResource pylonLogEntryViewSource}}"/>
-        <CollectionViewSource x:Key="propViewSource"/>
-        <CollectionViewSource x:Key="engineViewSource"/>
     </Window.Resources>
 
     <DockPanel x:Name="dckPnlMain" LastChildFill="True">

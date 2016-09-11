@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 
 namespace PylonLog.Core
 {
-    
     public class SpektrumLog
     {
         public byte[] rawData;
@@ -38,7 +37,6 @@ namespace PylonLog.Core
                 rawData = null;
             }
         }
-
 
         public void createSessionLogs()
         {
@@ -72,11 +70,6 @@ namespace PylonLog.Core
                 logSession.createDataBlocksFromRawData();
 
                 logSessions.Add(logSession);
-
-                if(logSession.planeName == "Miss Dara" && logSession.dataBlocks.Count == 10125 )
-                {
-                    int breakVariable = 0;
-                }
             }
         }
 

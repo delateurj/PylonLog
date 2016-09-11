@@ -20,7 +20,6 @@ namespace PylonLog.Core
 
         public virtual PylonLogEntry pylonLogEntry { get; set; }
 
-
         public DataBlock shallowClone()
         {
             return (DataBlock)this.MemberwiseClone();

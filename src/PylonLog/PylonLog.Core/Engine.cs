@@ -10,10 +10,12 @@ namespace PylonLog.Core
 {
     [ImplementPropertyChanged]
     public class Engine
-    { 
+    {
+
+        //Must have empty constructor for Entity Framework
         public Engine()
         {
-            this.engineLogEntries = new ObservableCollection<EngineLogEntry>();
+
         }
 
         public Engine(string serialNumber, string engineType)
@@ -28,27 +30,6 @@ namespace PylonLog.Core
 
         public string engineType { get; set; }
 
-        public virtual ObservableCollection<EngineLogEntry>engineLogEntries { get; set; }
-    }
-
-    [ImplementPropertyChanged]
-    public class EngineLogEntry
-    {
-        public EngineLogEntry()
-        {
-
-        }
-
-        public int engineID { get; set; }
-
-        public virtual Engine Engine { get; set; }
-
-        public int engineLogEntryID { get; set; }
-
-        public DateTime dateTime { get; set; }
-
-        public string entryType { get; set; }
-
-        public string text { get; set; }
+        public string notes { get; set; }
     }
 }

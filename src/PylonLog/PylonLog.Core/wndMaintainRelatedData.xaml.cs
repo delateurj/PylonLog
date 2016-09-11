@@ -24,7 +24,7 @@ namespace PylonLog.Core
             InitializeComponent();
         }
 
-        private void btnSavePlugs_Click(object sender, RoutedEventArgs e)
+        private void btnSaveRelatedData_Click(object sender, RoutedEventArgs e)
         {
             GlobalDataContext.pylonLogContext.SaveChanges();
         }

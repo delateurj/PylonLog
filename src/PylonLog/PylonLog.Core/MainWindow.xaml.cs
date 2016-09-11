@@ -11,9 +11,12 @@ using System.Linq;
 namespace PylonLog.Core
 {
     public partial class MainWindow : Window
-    {
-       
+    {       
         public CollectionViewSource plugViewSource;
+
+        public CollectionViewSource propViewSource;
+
+        public CollectionViewSource engineViewSource;
 
         private PylonLogGraphUserControl.PylonLogGraphUserControl graph;
 
@@ -30,6 +33,7 @@ namespace PylonLog.Core
             dckPnlMain.DataContext = pylonLogEntry;
 
             this.Left = 0;
+
             this.Top = 0;
         }
 
@@ -37,11 +41,11 @@ namespace PylonLog.Core
         {
             CollectionViewSource pylonLogEntryViewSource = ((CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
 
-            CollectionViewSource propViewSource = ((CollectionViewSource)(this.FindResource("propViewSource")));
+            propViewSource = ((CollectionViewSource)(this.FindResource("propViewSource")));
 
             plugViewSource = ((CollectionViewSource)(this.FindResource("plugViewSource")));
 
-            CollectionViewSource engineViewSource = ((CollectionViewSource)(this.FindResource("engineViewSource")));
+            engineViewSource = ((CollectionViewSource)(this.FindResource("engineViewSource")));
 
             GlobalDataContext.pylonLogContext.props.Load();
 
@@ -102,6 +106,7 @@ namespace PylonLog.Core
                 host.Child = graph;
 
                 graphWindow.Left = this.Left;
+
                 graphWindow.Top = this.Top + this.ActualHeight;
 
                 graphWindow.MainGrid.Children.Add(host);
@@ -172,7 +177,6 @@ namespace PylonLog.Core
             dgPylonLog.SelectedItem = this.dgPylonLog.Items.MoveCurrentToLast();
 
             dgPylonLog.ScrollIntoView(dgPylonLog.SelectedItem);
-
         }
 
         private void chkBoxNonZeroRPM_Click(object sender, RoutedEventArgs e)
@@ -190,8 +194,7 @@ namespace PylonLog.Core
                         lstBxLogSessions.ItemsSource = spektrumLog.logSessions.Where(element => element.numberOfNonZeroDataBlocksOfThisDataType("RPM") > 0);
                     }
                 }
-            }
-            
+            }        
         }
 
         private void btnUpdateAvgRPM_Click(object sender, RoutedEventArgs e)
@@ -217,7 +220,6 @@ namespace PylonLog.Core
 
             relatedDataWindow.Show();
         }
-
     }
 }
 

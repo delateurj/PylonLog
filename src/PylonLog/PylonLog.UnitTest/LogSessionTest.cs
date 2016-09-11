@@ -3,8 +3,6 @@ using System.Text;
 using NUnit.Framework;
 using PylonLog.Core;
 
-
-
 namespace PylonLog.UnitTest
 {
     [TestFixture]
@@ -13,7 +11,6 @@ namespace PylonLog.UnitTest
         [Test]
         public void TestPopulateNameFromData()
         {
-
             string expectedPlaneName = "TestPlane";
 
             TelemetrySession logSession = new TelemetrySession();

@@ -30,8 +30,6 @@ namespace PylonLog.Core
             context.engines.Add(new Engine("Nelson I", "Q40"));
             context.engines.Add(new Engine("Jett I", "426"));
 
-
-
             base.Seed(context);
         }
     }
@@ -39,15 +37,11 @@ namespace PylonLog.Core
     {
         private static string SQLServerLocal2012 = @"Data Source=(LocalDb)\v11.0;Initial Catalog=PylonLogDB2012LocalDBr2;Integrated Security=SSPI;";
         private static string SQLServerLocal2014 = @"Data Source = (localdb)\mssqllocaldb; Initial Catalog = PylonLogDB2014LocalDB; Integrated Security = SSPI; MultipleActiveResultSets=True";
-        private static string SQLServerLocal2012Prod1 = @"Data Source=(LocalDb)\v11.0;Initial Catalog=PylonLogDB2012LocalDBProdTemp;Integrated Security=SSPI;";
+        private static string SQLServerLocal2012Prod2 = @"Data Source=(LocalDb)\v11.0;Initial Catalog=PylonLogDB2012LocalDBProd2;Integrated Security=SSPI;";
       
-        public PylonLogContext() : base(SQLServerLocal2012Prod1)
+        public PylonLogContext() : base(SQLServerLocal2012Prod2)
         {
             Database.SetInitializer(new PylonLogInitializer());
-
-            //Database.SetInitializer<SchoolDBContext>(new DropCreateDatabaseIfModelChanges<SchoolDBContext>());
-            //Database.SetInitializer<SchoolDBContext>(new DropCreateDatabaseAlways<SchoolDBContext>());
-            //Database.SetInitializer<SchoolDBContext>(new SchoolDBInitializer());
         }
         public DbSet<PylonLogEntry> pylonLogEntries { get; set; }
 
@@ -58,10 +52,5 @@ namespace PylonLog.Core
         public DbSet<GlowPlug> plugs { get; set; }
 
         public DbSet<Engine> engines { get; set; }
-
-        public DbSet<EngineLogEntry> engineLogEntries { get; set; }
     }
-
-
-
 }
