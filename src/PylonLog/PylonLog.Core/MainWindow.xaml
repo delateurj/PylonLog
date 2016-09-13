@@ -51,7 +51,7 @@
                 <Label Content="Log Entries" VerticalAlignment= "Bottom" />
 
                 <DataGrid x:Name="dgPylonLog"   AutoGenerateColumns="False" MaxHeight="200"
-                               DataContext="{StaticResource pylonLogEntryViewSource}" ItemsSource="{Binding}" >
+                               DataContext="{StaticResource pylonLogEntryViewSource}" ItemsSource="{Binding}"  >
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="txtGridPlaneName"  Header="Plane" Binding="{Binding planeName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
@@ -71,13 +71,23 @@
                                 <DataTemplate>
                                     <ComboBox x:Name="dgCmboEngine" 
                                             ItemsSource = "{Binding Source={StaticResource engineViewSource}}"
+                                            DisplayMemberPath="serialNumber"
+                                            SelectedValuePath="serialNumber"
                                             SelectedValue="{Binding engine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError =true, ValidatesOnExceptions=true}"
-                                            DisplayMemberPath="serialNumber" 
-                                            IsSynchronizedWithCurrentItem="false"/>
+                                            IsSynchronizedWithCurrentItem="false" SelectionChanged="dgCmboEngine_SelectionChanged"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        
+                        <DataGridTextColumn x:Name="txtHeadHeight"  Header="Hd" MaxWidth="30"
+                                              Binding="{Binding headHeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtDeckClearance"  Header="Dck" 
+                                                Binding="{Binding deckClearance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+                        <DataGridTextColumn x:Name="txtTiming"  Header="Tmng" 
+                                                Binding="{Binding timing, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+
+
                         <DataGridTemplateColumn Header="Prop" MinWidth="85">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -89,7 +99,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-     
+
                         <DataGridTemplateColumn Header="Plug">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -106,26 +116,17 @@
                         <DataGridTextColumn x:Name="txtGridPlugColor"  Header="Color&#x0a;(0-5)" Binding="{Binding plugColor, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtGridEntryType"  Header="Entry Type" Binding="{Binding entryType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-                       
+
 
                         <DataGridTextColumn x:Name="txtGridNeedle" MaxWidth="40" Header="Ndle" Binding="{Binding relativeNeedle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtGridTemperature"  Header="Tmp" 
                                                 Binding="{Binding temperature, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                        <DataGridTextColumn x:Name="txtHeadHeight"  Header="Hd" MaxWidth="30"
-                                                Binding="{Binding headHeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-
-                        <DataGridTextColumn x:Name="txtDeckClearance"  Header="Dck" 
-                                                Binding="{Binding deckClearance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-
-                        <DataGridTextColumn x:Name="txtTiming"  Header="Tmng" 
-                                                Binding="{Binding timing, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-
                         <DataGridTextColumn x:Name="txtGridHumidity"  Header="Hum&#x0a;idity" MaxWidth="30"
                                                 Binding="{Binding humidity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
-                       <DataGridTextColumn x:Name="txtPeakLineRPM"  Header="Peak&#x0a;Line&#x0a;RPM" 
+                        <DataGridTextColumn x:Name="txtPeakLineRPM"  Header="Peak&#x0a;Line&#x0a;RPM" 
                                                 Binding="{Binding peakRPMOnLine, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
                         <DataGridTextColumn x:Name="txtLaunchRPM"  Header="Launch&#x0a;RPM" 
@@ -139,10 +140,10 @@
 
                         <DataGridTextColumn x:Name="txtAvgRPM"  Header="Avg&#x0a;RPM" 
                                                 Binding="{Binding avgRPM, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-                        
+
                         <DataGridTextColumn x:Name="txtAvgPeakRPM"  Header="Avg. Peak&#x0a;RPM" 
                                                 Binding="{Binding avgPeakRPM, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
-                        
+
                         <DataGridCheckBoxColumn x:Name="chkBxGridExclude" Header="Excl.&#x0a;From&#x0a;Stats" 
                                                     Binding="{Binding excludeFromStats, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 

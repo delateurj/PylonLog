@@ -5,14 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PylonLog.Core"
         mc:Ignorable="d"
-        Title="wndMaintainRelatedData" Height="500" Width="300">
+        Title="wndMaintainRelatedData" Height="500" Width="600">
 
     <StackPanel>
-        <DataGrid x:Name="dgMaintainRelatedData" DataContext="{StaticResource plugViewSource}" Margin="10,10,10,10" Height ="100" ItemsSource="{Binding}"/>
+        <DataGrid x:Name="dgMaintainPlugs" AutoGenerateColumns="False" DataContext="{StaticResource plugViewSource}"  
+                  Margin="10,10,10,10" Height ="100" ItemsSource="{Binding}">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="txtGridPlugName"  Header="Glow Plug Name" 
+                                    Binding="{Binding name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <DataGrid x:Name="dgMaintainProps" DataContext="{StaticResource propViewSource}" Margin="10,10,10,10" Height ="100" ItemsSource="{Binding}"/>
+        <DataGrid x:Name="dgMaintainProps" AutoGenerateColumns="False" DataContext="{StaticResource propViewSource}" 
+                  Margin="10,10,10,10" Height ="100" ItemsSource="{Binding}">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="txtGridPropName"  Header="Prop Name" 
+                                    Binding="{Binding name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <DataGrid x:Name="dgMaintainEngines" DataContext="{StaticResource engineViewSource}" Margin="10,10,10,10" Height ="100" ItemsSource="{Binding}"/>
+        <DataGrid x:Name="dgMaintainEngines" AutoGenerateColumns="False" DataContext="{StaticResource engineViewSource}" 
+                  Margin="10,10,10,10" Height ="100" ItemsSource="{Binding}">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="txtGridEngineSerial"  Header="Serial #" 
+                                    Binding="{Binding serialNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                <DataGridTextColumn x:Name="txtGridEngineType"  Header="Type" 
+                                    Binding="{Binding engineType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                <DataGridTextColumn x:Name="txtGridHeadHeight"  Header="Head" 
+                                    Binding="{Binding headHeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                <DataGridTextColumn x:Name="txtGridDeckClearance"  Header="Deck" 
+                                    Binding="{Binding deckClearance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                <DataGridTextColumn x:Name="txtGridTiming"  Header="Timing" 
+                                    Binding="{Binding timing, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Button x:Name="btnSaveRelatedData" Content="Save Changes" Margin="10,10,10,10" MaxWidth="350" Click="btnSaveRelatedData_Click" />
     </StackPanel>

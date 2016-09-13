@@ -30,6 +30,12 @@ namespace PylonLog.Core
 
         public string engineType { get; set; }
 
+        public int headHeight { get; set; }
+
+        public int deckClearance { get; set; }
+
+        public string timing { get; set; }
+
         public string notes { get; set; }
     }
 }

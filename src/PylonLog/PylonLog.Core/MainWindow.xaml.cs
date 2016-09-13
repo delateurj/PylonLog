@@ -11,12 +11,14 @@ using System.Linq;
 namespace PylonLog.Core
 {
     public partial class MainWindow : Window
-    {       
+    {
         public CollectionViewSource plugViewSource;
 
         public CollectionViewSource propViewSource;
 
         public CollectionViewSource engineViewSource;
+
+        public CollectionViewSource pylonLogEntryViewSource;
 
         private PylonLogGraphUserControl.PylonLogGraphUserControl graph;
 
@@ -39,7 +41,7 @@ namespace PylonLog.Core
 
         private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
-            CollectionViewSource pylonLogEntryViewSource = ((CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
+            pylonLogEntryViewSource = ((CollectionViewSource)(this.FindResource("pylonLogEntryViewSource")));
 
             propViewSource = ((CollectionViewSource)(this.FindResource("propViewSource")));
 
@@ -135,7 +137,7 @@ namespace PylonLog.Core
         private void btnOpenCreateLogEntry_Click(object sender, RoutedEventArgs e)
         {
             TelemetrySession selectedLogSession = (TelemetrySession)lstBxLogSessions.SelectedItem;
-   
+
             PylonLogEntry previous = pylonLogEntry;
 
             pylonLogEntry = new PylonLogEntry();
@@ -150,7 +152,7 @@ namespace PylonLog.Core
 
             pylonLogEntry.plugType = previous.plugType;
 
-            pylonLogEntry.engine= previous.engine;
+            pylonLogEntry.engine = previous.engine;
 
             pylonLogEntry.entryType = previous.entryType;
 
@@ -162,7 +164,7 @@ namespace PylonLog.Core
                 }
             }
 
-            pylonLogEntry.avgRPM =(int) (pylonLogEntry.averageOfSpecifiedValueType("RPM"));
+            pylonLogEntry.avgRPM = (int)(pylonLogEntry.averageOfSpecifiedValueType("RPM"));
 
             pylonLogEntry.telemetryDuration = selectedLogSession.duration;
 
@@ -194,22 +196,22 @@ namespace PylonLog.Core
                         lstBxLogSessions.ItemsSource = spektrumLog.logSessions.Where(element => element.numberOfNonZeroDataBlocksOfThisDataType("RPM") > 0);
                     }
                 }
-            }        
+            }
         }
 
         private void btnUpdateAvgRPM_Click(object sender, RoutedEventArgs e)
         {
-            PylonLogEntry selectedEntry =(PylonLogEntry) dgPylonLog.SelectedItem;
+            PylonLogEntry selectedEntry = (PylonLogEntry)dgPylonLog.SelectedItem;
 
-            if(selectedEntry  != null)
+            if (selectedEntry != null)
             {
-                if(selectedEntry.endTimeStamp != 0)
+                if (selectedEntry.endTimeStamp != 0)
                 {
-                    selectedEntry.avgRPM = (int)(selectedEntry.averageOfSpecifiedValueType("RPM", 100*selectedEntry.launchTimeStamp, 100*selectedEntry.endTimeStamp));
+                    selectedEntry.avgRPM = (int)(selectedEntry.averageOfSpecifiedValueType("RPM", 100 * selectedEntry.launchTimeStamp, 100 * selectedEntry.endTimeStamp));
                 }
                 else
                 {
-                    selectedEntry.avgRPM = (int)(selectedEntry.averageOfSpecifiedValueType("RPM", 100*selectedEntry.launchTimeStamp));
+                    selectedEntry.avgRPM = (int)(selectedEntry.averageOfSpecifiedValueType("RPM", 100 * selectedEntry.launchTimeStamp));
                 }
             }
         }
@@ -219,6 +221,31 @@ namespace PylonLog.Core
             wndMaintainRelatedData relatedDataWindow = new wndMaintainRelatedData();
 
             relatedDataWindow.Show();
+        }
+
+        private void dgPylonLog_RowEditEnding(object sender, System.Windows.Controls.DataGridRowEditEndingEventArgs e)
+        {
+            GlobalDataContext.pylonLogContext.SaveChanges();
+        }
+
+        private void dgCmboEngine_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+           // if(dgPylonLog.IsLoaded)
+          //  {
+                if (((System.Windows.Controls.ComboBox)sender).SelectedValue != null)
+                {
+                    string SelectedText = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+                    int defaultHead = GlobalDataContext.pylonLogContext.engines.First(c => c.serialNumber == SelectedText).headHeight;
+                    int defaultDeck = GlobalDataContext.pylonLogContext.engines.First(c => c.serialNumber == SelectedText).deckClearance;
+
+                    if (dgPylonLog.SelectedItem != null && dgPylonLog.SelectedItem.ToString() != "{NewItemPlaceholder}")
+                    {
+                        PylonLogEntry currentRow = (PylonLogEntry)dgPylonLog.SelectedItem;
+                        currentRow.headHeight = defaultHead;
+                        currentRow.deckClearance = defaultDeck;
+                    }
+               // }           
+            }
         }
     }
 }

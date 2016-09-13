@@ -60,7 +60,7 @@ namespace PylonLog.Core
 
         public GlowPlug plugType { get; set; }
 
-        public virtual Engine engine { get; set; }
+        public  string engine { get; set; }
 
         public int headHeight { get; set; }
 
@@ -88,7 +88,7 @@ namespace PylonLog.Core
             else
             {
                 return 0;
-            }       
+            }
         }
 
         public double averageOfSpecifiedValueType(string valueType)
@@ -161,6 +161,6 @@ namespace PylonLog.Core
         public GlowPlug(string name)
         {
             this.name = name;
-        }    
+        }
     }
 }

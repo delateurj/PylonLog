@@ -92,15 +92,18 @@ namespace PylonLog.Core
             List<Double[]> result = new List<Double[]>();
 
             Double[] timeStamps = new Double[list.Count];
+
             Double[] values = new Double[list.Count];
 
             for (int i=0; i < list.Count ; i++)
             {
                 timeStamps[i] = (double)(list[i].timeStamp)/(double)100;
+
                 values[i] = list[i].dataValue;
             }
 
             result.Add(timeStamps);
+
             result.Add(values);
 
             return result;
