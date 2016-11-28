@@ -140,6 +140,15 @@
     <Compile Include="GraphWindow.xaml.cs">
       <DependentUpon>GraphWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609102256254_InitialCreate.cs" />
+    <Compile Include="Migrations\201609102256254_InitialCreate.Designer.cs">
+      <DependentUpon>201609102256254_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611042046477_FirstTimeMigrating.cs" />
+    <Compile Include="Migrations\201611042046477_FirstTimeMigrating.Designer.cs">
+      <DependentUpon>201611042046477_FirstTimeMigrating.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PylonLogContext.cs" />
     <Compile Include="PylonLogEntry.cs" />
     <Compile Include="TelemetrySession.cs" />
@@ -182,6 +191,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201609102256254_InitialCreate.resx">
+      <DependentUpon>201609102256254_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611042046477_FirstTimeMigrating.resx">
+      <DependentUpon>201611042046477_FirstTimeMigrating.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

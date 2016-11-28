@@ -66,7 +66,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn Header="Engine" MinWidth="85">
+                        <DataGridTemplateColumn Header="Engine" MinWidth="60">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox x:Name="dgCmboEngine" 
@@ -88,7 +88,7 @@
                                                 Binding="{Binding timing, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
 
 
-                        <DataGridTemplateColumn Header="Prop" MinWidth="85">
+                        <DataGridTemplateColumn Header="Prop" MinWidth="60">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox x:Name="dgCmboProp" 
@@ -103,7 +103,7 @@
                         <DataGridTemplateColumn Header="Plug">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox x:Name="dgCmboPlugType" MinWidth="85"
+                                    <ComboBox x:Name="dgCmboPlugType" MinWidth="60"
                                             ItemsSource = "{Binding Source={StaticResource plugViewSource}}"
                                             SelectedValue="{Binding plugType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError =true, ValidatesOnExceptions=true}"
                                             DisplayMemberPath="name" 
