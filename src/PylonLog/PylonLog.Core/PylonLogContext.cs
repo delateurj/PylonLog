@@ -40,7 +40,7 @@ namespace PylonLog.Core
         private static string SQLServerLocal2012Prod2 = @"Data Source=(LocalDb)\v11.0;Initial Catalog=PylonLogDB2012LocalDBProd2;Integrated Security=SSPI;";
         private static string SQLServerLocal2012ProdTemp = @"Data Source=(LocalDb)\v11.0;Initial Catalog=PylonLogDB2012LocalDBProdTemp;Integrated Security=SSPI;";
         
-        public PylonLogContext() : base(SQLServerLocal2012ProdTemp)
+        public PylonLogContext() : base(SQLServerLocal2012)
         {
             Database.SetInitializer(new PylonLogInitializer());
         }

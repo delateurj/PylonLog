@@ -12,7 +12,7 @@ namespace PylonLog.Core
     public class SpektrumLog
     {
         public byte[] rawData;
-       
+
         public ObservableCollection<TelemetrySession> logSessions = new ObservableCollection<TelemetrySession>();
 
         public SpektrumLog(string theFilePath)
@@ -38,11 +38,11 @@ namespace PylonLog.Core
             }
         }
 
+
+
         public void createSessionLogs()
         {
-            int indexOfNextLogSession = BinarySearch.findPattern(rawData, Utilities.Constants.NEW_SESSION_LOG_PATTERN);
-
-            int indexOfNextSupplementalHeader;
+            int indexOfNextLogSession = findNextSessionLog(0); 
 
             while (indexOfNextLogSession > -1)
             {
@@ -54,9 +54,11 @@ namespace PylonLog.Core
 
                 logSession.poplulateNameFromMainHeader();
 
-                indexOfNextSupplementalHeader = parseSupplementalHeaders(indexOfLogSession, logSession);
+                int indexOfLastSupplementalHeader = findLastSupplmentalHeader(indexOfLogSession);
 
-                indexOfNextLogSession = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH);
+                logSession.indexOfStartOfDataBlocks = indexOfLastSupplementalHeader + Constants.HEADER_BLOCK_LENGTH - indexOfLogSession;
+
+                indexOfNextLogSession = findNextSessionLog(indexOfLastSupplementalHeader + Constants.HEADER_BLOCK_LENGTH);
 
                 if (indexOfNextLogSession > -1)
                 {
@@ -73,21 +75,62 @@ namespace PylonLog.Core
             }
         }
 
-
-        public int parseSupplementalHeaders(int indexOfLogSession, TelemetrySession logSession)
+        public int findNextSessionLog(int startIndex)
         {
-            int indexOfNextSupplementalHeader = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfLogSession + Constants.HEADER_BLOCK_LENGTH);
+            int result = -1;
 
-            logSession.supplementalHeaders.Add(rawData.Slice(indexOfNextSupplementalHeader, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH));
+            int lastHeaderOfNextLogIndex = -1;
 
-            while (rawData[indexOfNextSupplementalHeader + 4] != 0x17 || rawData[indexOfNextSupplementalHeader + 5] != 0x17)
+            lastHeaderOfNextLogIndex = findLastSupplmentalHeader(startIndex);
+
+            if (lastHeaderOfNextLogIndex == -1)
             {
-                indexOfNextSupplementalHeader = BinarySearch.findPattern(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH);
-
-                logSession.supplementalHeaders.Add(rawData.Slice(indexOfNextSupplementalHeader, indexOfNextSupplementalHeader + Constants.HEADER_BLOCK_LENGTH));
+                result = -1;
+            }
+            else
+            {
+                result = findIndexOfSessionStartFromLastHeaderIndex(lastHeaderOfNextLogIndex);
             }
 
-            return indexOfNextSupplementalHeader;
+            return result;
+        }
+
+        public int findLastSupplmentalHeader(int startIndex)
+        {
+            int result = -1;
+
+            result = BinarySearch.findPattern(rawData, Constants.LAST_SUPPLEMENTAL_HEADER_PATTERN, startIndex);
+
+            return result;
+        }
+
+        public int findIndexOfSessionStartFromLastHeaderIndex(int indexOfLastSupplmentalHeader)
+        {
+            int result = -1;
+
+            Boolean notYetFound = true;
+
+            int indexOfEndOfPreviousHeaderStart = BinarySearch.findPatternReverse(rawData, Constants.NEW_SESSION_LOG_PATTERN, indexOfLastSupplmentalHeader);
+
+            while (indexOfEndOfPreviousHeaderStart != -1 && notYetFound)
+            {
+                if (rawData[indexOfEndOfPreviousHeaderStart + 2] == 0x00)
+                {
+                    result = indexOfEndOfPreviousHeaderStart - 3;
+
+                    notYetFound = false;
+                }
+                else
+                {
+                    indexOfEndOfPreviousHeaderStart = 
+                        BinarySearch.findPatternReverse(
+                            rawData, 
+                            Constants.NEW_SESSION_LOG_PATTERN, 
+                            indexOfEndOfPreviousHeaderStart-3);
+                }
+            }
+
+            return result;
         }
 
 
@@ -105,8 +148,8 @@ namespace PylonLog.Core
 
                     foreach (DataBlock dataBlock in logSession.dataBlocks)
                     {
-                       writer.WriteLine(dataBlock.timeStamp - logSession.dataBlocks[0].timeStamp + "," + dataBlock.dataType + "," + dataBlock.dataValue);
-                   }
+                        writer.WriteLine(dataBlock.timeStamp - logSession.dataBlocks[0].timeStamp + "," + dataBlock.dataType + "," + dataBlock.dataValue);
+                    }
                 }
             }
         }

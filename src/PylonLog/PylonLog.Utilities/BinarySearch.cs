@@ -14,16 +14,42 @@ namespace PylonLog.Utilities
             {
                  return -1;
             }
-            var len = sequenceToFind.Length;
-            var limit = arrayToSearch.Length - len;
+            
+            var limit = arrayToSearch.Length - sequenceToFind.Length;
+
             for (var i = startingIndex; i <= limit; i++)
             {
                 var k = 0;
-                for (; k < len; k++)
+
+                for (; k < sequenceToFind.Length; k++)
                 {
                     if (sequenceToFind[k] != arrayToSearch[i + k]) break;
                 }
-                if (k == len) return i;
+
+                if (k == sequenceToFind.Length) return i;
+            }
+            return -1;
+        }
+
+        public static int findPatternReverse(byte[] arrayToSearch, byte[] sequenceToFind, int startingIndex=0)
+        {
+            if (sequenceToFind.Length == 0 || arrayToSearch.Length == 0 || startingIndex >= arrayToSearch.Length || startingIndex < 0)
+            {
+                return -1;
+            }
+
+            var limit = sequenceToFind.Length-1;
+
+            for (var i = startingIndex; i >= limit; i--)
+            {
+                var k = 0;
+
+                for (; k < sequenceToFind.Length; k++)
+                {
+                    if (sequenceToFind[k] != arrayToSearch[i - k]) break;
+                }
+
+                if (k == sequenceToFind.Length) return i;
             }
             return -1;
         }

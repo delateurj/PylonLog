@@ -30,7 +30,7 @@ namespace PylonLog.Core
         {
             InitializeComponent();
 
-            GlobalDataContext.pylonLogContext.Database.Initialize(false);
+            GlobalDataContext.pylonLogContext.Database.Initialize(true);
 
             dckPnlMain.DataContext = pylonLogEntry;
 

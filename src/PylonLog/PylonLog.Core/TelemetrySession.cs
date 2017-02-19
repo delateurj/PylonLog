@@ -17,6 +17,8 @@ namespace PylonLog.Core
 
         public int duration { get; set; }
 
+        public int indexOfStartOfDataBlocks;
+
         public int numberOfNonZeroDataBlocksOfThisDataType(string dataType)
         {
             return dataBlocks.Count(element => element.dataType == dataType && element.dataValue > 0);
@@ -24,8 +26,7 @@ namespace PylonLog.Core
 
         public byte[] mainHeader;
 
-        public List<byte[]> supplementalHeaders = new List<byte[]>();
-
+        
         public List<DataBlock> dataBlocks = new List<DataBlock>();
 
         public override String ToString()
@@ -48,8 +49,7 @@ namespace PylonLog.Core
 
         public void createDataBlocksFromRawData()
         {
-            int indexOfStartOfDataBlocks = Constants.HEADER_BLOCK_LENGTH + Constants.HEADER_BLOCK_LENGTH * supplementalHeaders.Count;
-
+           
             int numberOfDataBlocks = (rawData.Length - indexOfStartOfDataBlocks) / Constants.DATA_BLOCK_LENGTH;
 
             for (int i = 0; i < numberOfDataBlocks; i++)
