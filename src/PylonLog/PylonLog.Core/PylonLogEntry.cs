@@ -70,6 +70,44 @@ namespace PylonLog.Core
 
         public virtual ObservableCollection<DataBlock> DataBlocks { get; set; }
 
+        public List<Double[]> getSelectedDataBlocks(string dataType)
+        {
+
+            List<DataBlock> list = new List<DataBlock>();
+
+            foreach (DataBlock dataBlock in DataBlocks)
+            {
+                if (dataBlock.dataType == dataType)
+                {
+                    list.Add(dataBlock);
+                }
+            }
+
+            List<Double[]> result = new List<Double[]>();
+
+            Double[] timeStamps = new Double[list.Count];
+
+            Double[] values = new Double[list.Count];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                timeStamps[i] = (double)(list[i].timeStamp) / (double)100;
+
+                values[i] = list[i].dataValue;
+            }
+
+            result.Add(timeStamps);
+
+            result.Add(values);
+
+            return result;
+        }
+
+        public int numberOfNonZeroDataBlocksOfThisDataType(string dataType)
+        {
+            return DataBlocks.Count(element => element.dataType == dataType && element.dataValue > 0);
+        }
+
         public double averageOfSpecifiedValueType(string valueType, int start)
         {
             if (DataBlocks != null)

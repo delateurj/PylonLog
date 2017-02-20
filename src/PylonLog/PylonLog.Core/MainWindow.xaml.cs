@@ -230,21 +230,58 @@ namespace PylonLog.Core
 
         private void dgCmboEngine_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-           // if(dgPylonLog.IsLoaded)
-          //  {
-                if (((System.Windows.Controls.ComboBox)sender).SelectedValue != null)
-                {
-                    string SelectedText = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
-                    int defaultHead = GlobalDataContext.pylonLogContext.engines.First(c => c.serialNumber == SelectedText).headHeight;
-                    int defaultDeck = GlobalDataContext.pylonLogContext.engines.First(c => c.serialNumber == SelectedText).deckClearance;
+            // if(dgPylonLog.IsLoaded)
+            //  {
+            if (((System.Windows.Controls.ComboBox)sender).SelectedValue != null)
+            {
+                string SelectedText = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+                int defaultHead = GlobalDataContext.pylonLogContext.engines.First(c => c.serialNumber == SelectedText).headHeight;
+                int defaultDeck = GlobalDataContext.pylonLogContext.engines.First(c => c.serialNumber == SelectedText).deckClearance;
 
-                    if (dgPylonLog.SelectedItem != null && dgPylonLog.SelectedItem.ToString() != "{NewItemPlaceholder}")
-                    {
-                        PylonLogEntry currentRow = (PylonLogEntry)dgPylonLog.SelectedItem;
-                        currentRow.headHeight = defaultHead;
-                        currentRow.deckClearance = defaultDeck;
-                    }
-               // }           
+                if (dgPylonLog.SelectedItem != null && dgPylonLog.SelectedItem.ToString() != "{NewItemPlaceholder}")
+                {
+                    PylonLogEntry currentRow = (PylonLogEntry)dgPylonLog.SelectedItem;
+                    currentRow.headHeight = defaultHead;
+                    currentRow.deckClearance = defaultDeck;
+                }
+                // }           
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgPylonLog.SelectedItem != null && dgPylonLog.SelectedItem.ToString() != "{NewItemPlaceholder}")
+            {
+                PylonLogEntry selectedEntry = (PylonLogEntry)dgPylonLog.SelectedItem;
+
+                if (selectedEntry != null)
+                {
+                    GraphWindow graphWindow = new GraphWindow();
+
+                    WindowsFormsHost host = new WindowsFormsHost();
+
+                    List<Double[]> firstGraphData = selectedEntry.getSelectedDataBlocks("RPM");
+
+                    List<Double[]> secondGraphData = selectedEntry.getSelectedDataBlocks("RX-VOLT");
+
+                    graph = new PylonLogGraphUserControl.PylonLogGraphUserControl(firstGraphData, secondGraphData);
+
+                    host.Child = graph;
+
+                    graphWindow.Left = this.Left;
+
+                    graphWindow.Top = this.Top + this.ActualHeight;
+
+                    graphWindow.MainGrid.Children.Add(host);
+
+                    graphWindow.Width = graph.Width;
+
+                    graphWindow.Height = graph.Height;
+
+                    graphWindow.Title = selectedEntry.ToString() + " Non zero rpm:" + selectedEntry.numberOfNonZeroDataBlocksOfThisDataType("RPM");
+
+                    graphWindow.Show();
+                }
             }
         }
     }
